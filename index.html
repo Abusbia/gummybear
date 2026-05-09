@@ -26,21 +26,21 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-main: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-                --card-bg: #2d3748;
-                --text-main: #f7fafc;
-                --text-muted: #a0aec0;
-                --border-color: #4a5568;
-                --table-header: #4a5568;
-                --footer-bg: #0f172a;
+                --bg-main: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                --card-bg: #1e293b;
+                --text-main: #f1f5f9;
+                --text-muted: #cbd5e1;
+                --border-color: #334155;
+                --table-header: #0f172a;
+                --footer-bg: #020617;
                 --footer-text: #94a3b8;
-                --modal-bg: #1e293b;
+                --modal-bg: #0f172a;
                 --modal-text: #f8fafc;
-                --tagline-bg: #1a202c;
+                --tagline-bg: #0f172a;
                 --popup-bg: rgba(0,0,0,0.85);
-                --stand-footer-bg: #22543d;
-                --stand-footer-text: #f0fff4;
-                --stand-footer-border: #276749;
+                --stand-footer-bg: #064e3b;
+                --stand-footer-text: #a7f3d0;
+                --stand-footer-border: #047857;
             }
         }
 
@@ -129,10 +129,10 @@
         .expiry { color: #e53e3e; font-size: 0.7rem; font-weight: 700; }
         .note-text { font-size: 0.68rem; color: #2b6cb0; font-weight: 600; }
         @media (prefers-color-scheme: dark) {
-            .offer-price { color: #90cdf4; }
-            .bulk-price { color: #68d391; }
-            .note-text { color: #90cdf4; }
-            .expiry { color: #fc8181; }
+            .offer-price { color: #60a5fa; }
+            .bulk-price { color: #4ade80; }
+            .note-text { color: #93c5fd; }
+            .expiry { color: #f87171; }
         }
 
         /* ========== STAND FOOTER ========== */
@@ -373,27 +373,27 @@
     const PRODUCTS = [
         { id: "hsn", name: "Hair, Skin & Nails", displayName: "👑 Hair, Skin & Nails", color: "#dd6b20", colorGrad: "linear-gradient(135deg,#dd6b20,#ed8936)", tagline: "High Potency Therapeutic Formula", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "07/2027", 
           desc: `🌿 Rich in Biotin 5000mcg + Natural Folate + 10 ingredients`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">البيوتين<\/td><td>5000 µg<\/td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر<\/td><\/tr><tr><td class="no-wrap">فيتامين أ<\/td><td>450 µg<\/td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة قوي<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>3 mg<\/td><td>يساعد في منع تساقط الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>4 µg<\/td><td>يدعم دورة نمو بصيلات الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين C<\/td><td>20 mg<\/td><td>ضروري لإنتاج الكولاجين<\/td><\/tr></tr><td class="no-wrap">فيتامين B12<\/td><td>8 µg<\/td><td>يدعم تكوين خلايا الدم<\/td><\/tr></td><td class="no-wrap">فيتامين B6<\/td><td>2 mg<\/td><td>يدعم إنتاج البروتين<\/td><\/tr></td><td class="no-wrap">فيتامين B5<\/td><td>10 mg<\/td><td>يدعم توازن الرطوبة<\/td><\/tr></td><td class="no-wrap">فيتامين B3<\/td><td>8 mg<\/td><td>يدعم إنتاج الطاقة<\/td><\/tr><tr><td class="no-wrap">فيتامين B2<\/td><td>400 µg<\/td><td>يدعم الطاقة الخلوية<\/td><\/tr><tr><td class="no-wrap">الفولات (طبيعي)<\/td><td>100 µg<\/td><td>يدعم انقسام الخلايا<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">البيوتين<\/td><td>5000 µg<\/td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر<\/td><\/tr><tr><td class="no-wrap">فيتامين أ<\/td><td>450 µg<\/td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة قوي<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>3 mg<\/td><td>يساعد في منع تساقط الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>4 µg<\/td><td>يدعم دورة نمو بصيلات الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين C<\/td><td>20 mg<\/td><td>ضروري لإنتاج الكولاجين<\/td><\/tr></td><td class="no-wrap">فيتامين B12<\/td><td>8 µg<\/td><td>يدعم تكوين خلايا الدم<\/td><\/tr></td><td class="no-wrap">فيتامين B6<\/td><td>2 mg<\/td><td>يدعم إنتاج البروتين<\/td><\/tr></td><td class="no-wrap">فيتامين B5<\/td><td>10 mg<\/td><td>يدعم توازن الرطوبة<\/td><\/tr></td><td class="no-wrap">فيتامين B3<\/td><td>8 mg<\/td><td>يدعم إنتاج الطاقة<\/td><\/tr><tr><td class="no-wrap">فيتامين B2<\/td><td>400 µg<\/td><td>يدعم الطاقة الخلوية<\/td><\/tr></td><td class="no-wrap">الفولات (طبيعي)<\/td><td>100 µg<\/td><td>يدعم انقسام الخلايا<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.<\/div>`,
           warnings: `<ul><li>⚠️ البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية.</li><li>⚠️ يتفاعل مع أدوية الصرع.</li><li>⚠️ غير موصى به للحوامل دون استشارة طبية.</li><li>⚠️ الجرعة اليومية: 1-2 Gummy حسب العمر.</li><\/ul>`
         },
         { id: "nostress", name: "No Stress", displayName: "🌿 No Stress", color: "#2f855a", colorGrad: "linear-gradient(135deg,#2f855a,#48bb78)", tagline: "Calm without Drowsiness", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "12/2027", 
           desc: `🌿 Ashwagandha KSM-66 300mg<br>✨ KSM-66 is a premium branded ingredient`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">أشواغاندا KSM-66<\/td><td>300 mg<\/td><td>يخفض الكورتيزول، يقلل القلق<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>10 mg<\/td><td>تدعم GABA لتعزيز الاسترخاء دون نعاس<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>10 mg<\/td><td>يحسن المزاج، يقلل الأرق والتهيج<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></td></thead><tbody><tr><td class="no-wrap">أشواغاندا KSM-66<\/td><td>300 mg<\/td><td>يخفض الكورتيزول، يقلل القلق<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>10 mg<\/td><td>تدعم GABA لتعزيز الاسترخاء دون نعاس<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>10 mg<\/td><td>يحسن المزاج، يقلل الأرق والتهيج<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).<\/div>`,
           warnings: `<ul><li>⚠️ قد يسبب النعاس – لا يقود السيارة بعد تناوله.</li><li>⚠️ يتفاعل مع مضادات الاكتئاب وأدوية الضغط.</li><li>⚠️ لا يستخدم لقرحة المعدة أو أمراض المناعة الذاتية دون استشارة.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><\/ul>`
         },
         { id: "multi", name: "Multivitamin - Sugar-Free", displayName: "🥇 Multivitamin - Sugar-Free", color: "#d53f8c", colorGrad: "linear-gradient(135deg,#d53f8c,#ed64a6)", tagline: "Smart Nutrition, Zero Sugar", retail: 115, pharmacy: 91, bulk: 82, profitSingle: 24, profitBulk: 600, expiry: "11/2027", 
           desc: `🌿 16 essential vitamins & minerals.<br>✨ Safe for diabetics & Keto-friendly`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">فيتامين C<\/td><td>30 mg<\/td><td>يدعم المناعة وتخليق الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>10 µg<\/td><td>يدعم العظام والمناعة<\/td><\/tr></table><td class="no-wrap">فيتامينات B<\/td><td>متنوعة<\/td><td>تدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">الفولات الطبيعي<\/td><td>400 µg<\/td><td>لوظيفة الدماغ وتخليق DNA<\/td><\/tr><tr><td class="no-wrap">البيوتين<\/td><td>150 µg<\/td><td>يدعم الشعر والبشرة<\/td><\/tr><tr><td class="no-wrap">اليود<\/td><td>40 µg<\/td><td>يدعم الغدة الدرقية<\/td><\/tr><tr><td class="no-wrap">الكروم<\/td><td>18 µg<\/td><td>يدعم توازن السكر<\/td><\/tr><tr><td class="no-wrap">الكالسيوم<\/td><td>100 mg<\/td><td>يدعم العظام والأسنان<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>2.2 mg<\/td><td>يدعم المناعة<\/td><\/tr><\/tbody><\/table><div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th><tr></thead><tbody><tr><td class="no-wrap">فيتامين C<\/td><td>30 mg<\/td><td>يدعم المناعة وتخليق الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>10 µg<\/td><td>يدعم العظام والمناعة<\/td><\/tr><tr><td class="no-wrap">فيتامينات B<\/td><td>متنوعة<\/td><td>تدعم الطاقة والجهاز العصبي<\/td><\/tr></td><td class="no-wrap">الفولات الطبيعي<\/td><td>400 µg<\/td><td>لوظيفة الدماغ وتخليق DNA<\/td><\/tr><tr><td class="no-wrap">البيوتين<\/td><td>150 µg<\/td><td>يدعم الشعر والبشرة<\/td><\/tr></td><td class="no-wrap">اليود<\/td><td>40 µg<\/td><td>يدعم الغدة الدرقية<\/td><\/tr><td><td class="no-wrap">الكروم<\/td><td>18 µg<\/td><td>يدعم توازن السكر<\/td><\/tr></td><td class="no-wrap">الكالسيوم<\/td><td>100 mg<\/td><td>يدعم العظام والأسنان<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>2.2 mg<\/td><td>يدعم المناعة<\/td><\/tr><\/tbody><\/table><div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.<\/div>`,
           warnings: `<ul><li>⚠️ يحتوي على يود – الحذر مع أمراض الغدة الدرقية.</li><li>⚠️ الكالسيوم قد يتداخل مع المضادات الحيوية.</li><li>⚠️ الكروم يعزز تأثير أدوية السكري (مراقبة مطلوبة).</li><li>⚠️ ينصح النساء الحوامل باستشارة الطبيب قبل الاستخدام.</li><\/ul>`
         },
         { id: "sleep", name: "Sleep", displayName: "🌙 Sleep", color: "#6b46c1", colorGrad: "linear-gradient(135deg,#6b46c1,#9f7aea)", tagline: "Restful Nights, Refreshing Mornings", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "02/2027", 
           desc: `🌿 Advanced formula with Melatonin + 5-HTP + 4 Herbs<br>✨ Natural solution for better sleep quality`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">ميلاتونين<\/td><td>1 mg<\/td><td>ينظم دورة النوم والاستيقاظ<\/td><\/tr><tr><td class="no-wrap">5-HTP<\/td><td>50 mg<\/td><td>مقدمة السيروتونين<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>15 mg<\/td><td>تدعم GABA<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>15 mg<\/td><td>يقلل التوتر ويحسن المزاج<\/td><\/tr></td><td class="no-wrap">حشيشة الهر<\/td><td>15 mg<\/td><td>تقليل الوقت اللازم للنوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></td></thead><tbody><tr><td class="no-wrap">ميلاتونين<\/td></td>1 mg<\/td><td>ينظم دورة النوم والاستيقاظ<\/td><\/tr><td><td class="no-wrap">5-HTP<\/td><td>50 mg<\/td><td>مقدمة السيروتونين<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>15 mg<\/td><td>تدعم GABA<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>15 mg<\/td><td>يقلل التوتر ويحسن المزاج<\/td><\/tr></td><td class="no-wrap">حشيشة الهر<\/td><td>15 mg<\/td><td>تقليل الوقت اللازم للنوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).<\/div>`,
           warnings: `<ul><li>⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين).</li><li>⚠️ قد يسبب النعاس.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ قد يسبب أحلاما مزعجة.</li><\/ul>`
         },
         { id: "magnesium", name: "Magnesium", displayName: "💪 Magnesium", color: "#319795", colorGrad: "linear-gradient(135deg,#319795,#38b2ac)", tagline: "Essential Muscle & Nerve Support", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "11/2027", 
           desc: `🌿 Magnesium Citrate with B6+B12+D3<br>✨ For maximum absorption & energy recovery`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم<\/td><td>100 mg<\/td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>1 mg<\/td><td>معزز امتصاص المغنيسيوم<\/td><\/tr></tr><td class="no-wrap">فيتامين B12<\/td><td>1.3 µg<\/td><td>يدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>2 µg<\/td><td>يعزز امتصاص الكالسيوم والمغنيسيوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم<\/td><td>100 mg<\/td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>1 mg<\/td><td>معزز امتصاص المغنيسيوم<\/td><\/tr></td><td class="no-wrap">فيتامين B12<\/td><td>1.3 µg<\/td><td>يدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>2 µg<\/td><td>يعزز امتصاص الكالسيوم والمغنيسيوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.<\/div>`,
           warnings: `<ul><li>⚠️ موانع استخدام: الفشل الكلوي الحاد دون استشارة الطبيب.</li><li>⚠️ قد يتفاعل مع المضادات الحيوية – فارق 2-3 ساعات.</li><li>⚠️ الجرعة اليومية: حبتان للبالغين.</li><\/ul>`
         }
     ];
