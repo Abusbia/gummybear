@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GummyBear - المعلومات العلمية الكاملة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #4a5568;
+            --border-color: #e2e8f0;
+            --table-header: #edf2f7;
+            --footer-bg: #1a202c;
+            --footer-text: #a0aec0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-main: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+                --card-bg: #2d3748;
+                --text-main: #f7fafc;
+                --text-muted: #a0aec0;
+                --border-color: #4a5568;
+                --table-header: #4a5568;
+                --footer-bg: #0f172a;
+                --footer-text: #94a3b8;
+            }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-main);
+            padding: 20px;
+            direction: rtl;
+            transition: background 0.3s ease;
+        }
+        .container { max-width: 1200px; margin: auto; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 { font-size: 2rem; font-family: Cambria, serif; }
+        .badge {
+            display: inline-block;
+            margin-top: 12px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+        }
+
+        /* Back to main button */
+        .back-btn {
+            display: inline-block;
+            background: #2b6cb0;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .back-btn:hover { background: #1a4d7a; }
+
+        /* Table of Contents (TOC) */
+        .toc {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .toc h2 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--text-main);
+            border-right: 4px solid #2b6cb0;
+            padding-right: 12px;
+        }
+        .toc-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            list-style: none;
+        }
+        .toc-list li a {
+            display: inline-block;
+            background: var(--table-header);
+            padding: 6px 16px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .toc-list li a:hover {
+            background: #2b6cb0;
+            color: white;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .product-header {
+            color: white;
+            padding: 20px;
+        }
+        .product-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+        .product-dosage {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 6px;
+        }
+        .product-content {
+            padding: 24px;
+        }
+        .section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin: 20px 0 12px 0;
+            color: var(--text-main);
+            border-right: 3px solid;
+            padding-right: 10px;
+        }
+        .desc-text {
+            line-height: 1.7;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .sci-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.75rem;
+        }
+        .sci-table th, .sci-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: right;
+            vertical-align: top;
+        }
+        .sci-table th {
+            background: var(--table-header);
+            font-weight: 700;
+        }
+        .warning-box, .interactions-box, .side-effects-box {
+            background: #fff5f5;
+            border-right: 4px solid #e53e3e;
+            padding: 14px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 0.8rem;
+        }
+        @media (prefers-color-scheme: dark) {
+            .warning-box, .interactions-box, .side-effects-box { background: #450a0a; }
+        }
+        .age-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.8rem;
+        }
+        .age-table th, .age-table td {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            text-align: right;
+        }
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            margin-top: 30px;
+        }
+        .print-btn {
+            display: inline-block;
+            background: #2b6cb0;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 24px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 700px) {
+            .sci-table, .age-table { font-size: 0.7rem; }
+            .sci-table th, .sci-table td { padding: 6px 4px; }
+            .product-title { font-size: 1.1rem; }
+        }
+        @media print {
+            body { background: white; padding: 10px; }
+            .print-btn, .toc, .footer, .back-btn { display: none; }
+            .product-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div style="text-align: center;">
+        <a href="index.html" class="back-btn">🏠 العودة إلى القائمة الرئيسية</a>
+    </div>
+    <div class="header">
+        <h1>GummyBear</h1>
+        <p>المرجع العلمي الكامل للمنتجات</p>
+        <div class="badge">🇹🇳 صنع في تونس · حلال · خال من الغلوتين · خال من اللاكتوز</div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>📑 فهرس المحتويات</h2>
+        <ul class="toc-list">
+            <li><a href="#hsn">👑 Hair, Skin & Nails</a></li>
+            <li><a href="#nostress">🌿 No Stress</a></li>
+            <li><a href="#multi">🥇 Multivitamin</a></li>
+            <li><a href="#sleep">🌙 Sleep</a></li>
+            <li><a href="#magnesium">💪 Magnesium</a></li>
+        </ul>
+    </div>
+
+    <div style="text-align: center;">
+        <button class="print-btn" onclick="window.print()">📄 حفظ كـ PDF أو طباعة</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 1. Hair, Skin & Nails -->
+    <!-- ============================================================ -->
+    <div id="hsn" class="product-card">
+        <div class="product-header" style="background: linear-gradient(135deg,#dd6b20,#ed8936)">
+            <div class="product-title">👑 GUMMYBEAR Hair, Skin & Nails</div>
+            <div class="product-dosage">🍬 الجرعة: 1–2 Gummies يومياً | 🧴 60 Gummies | حجم العبوة: 200 مل</div>
+        </div>
+        <div class="product-content">
+            <div class="section-title" style="border-right-color:#ed8936">📖 وصف المنتج</div>
+            <div class="desc-text">مكمل غذائي على شكل حلوى هلامية، تم تركيبه لتغذية الشعر، وتقوية الأظافر، ودعم صحة البشرة. تجمع التركيبة بين الفيتامينات الأساسية والمعادن ومضادات الأكسدة التي تعمل بشكل تآزري لدعم نمو الشعر الصحي، والحماية من الإجهاد التأكسدي، وتعزيز إنتاج الكولاجين.</div>
+
+            <div class="section-title" style="border-right-color:#ed8936">🧪 التركيبة النشطة (لكل Gummy – 12 مكوناً)</div>
+            <table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead>
+                <tbody><tr><td class="no-wrap">البيوتين<\/td><td>5000 µg<\/td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر<\/td><td>تركيبة بجرعة عالية مركزة<\/td><td>NIH – Biotin Fact Sheet<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين أ<\/td><td>450 µg<\/td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس<\/td><td>جرعة معتدلة وآمنة<\/td><td>Cleveland Clinic – Vitamin A<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة قوي يحمي خلايا البشرة<\/td><td>يقلل الإجهاد التأكسدي<\/td><td>NIH – Vitamin E Fact Sheet<\/td><\/tr>
+                <tr><td class="no-wrap">الزنك<\/td><td>3 mg<\/td><td>يساعد في منع تساقط الشعر<\/td><td>معدن أساسي<\/td><td>Harvard T.H. Chan – Zinc<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين D3<\/td><td>4 µg (160 IU)<\/td><td>يدعم دورة نمو بصيلات الشعر<\/td><td>جرعة منخفضة آمنة<\/td><td>NIH – Vitamin D Fact Sheet<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين C<\/td><td>20 mg<\/td><td>ضروري لإنتاج الكولاجين الطبيعي<\/td><td>حماية مضادة للأكسدة + امتصاص الحديد<\/td><td>AAD – Vitamin C for Skin Health<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين B12<\/td><td>8 µg<\/td><td>يدعم تكوين خلايا الدم الحمراء<\/td><td>يمنع بهتان الشعر المرتبط بالتعب<\/td><td>NIH – Vitamin B12 Fact Sheet<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين B6<\/td><td>2 mg<\/td><td>يدعم إنتاج البروتين لبناء أنسجة الشعر<\/td><td>يعمل تآزرياً مع B الأخرى<\/td><td>Harvard – Vitamin B6<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين B5<\/td><td>10 mg<\/td><td>يدعم توازن الرطوبة داخل جذع الشعرة<\/td><td>-<\/td><td>Mayo Clinic – Vitamin B5<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين B3<\/td><td>8 mg<\/td><td>يدعم إنتاج الطاقة في خلايا الجلد<\/td><td>تركيبة لطيفة منخفضة الجرعة<\/td><td>NIH – Niacin Fact Sheet<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين B2<\/td><td>400 µg<\/td><td>يدعم إنتاج الطاقة الخلوية<\/td><td>-<\/td><td>Linus Pauling Institute<\/td><\/tr>
+                <tr><td class="no-wrap">الفولات (طبيعي)<\/td><td>100 µg<\/td><td>يدعم انقسام الخلايا وتجديد الأنسجة<\/td><td>فولات طبيعي عالي التوافر، مناسب لطفرة MTHFR<\/td><td>Mayo Clinic – Folate<\/td><\/tr>
+                </tbody>
+            </table>
+            <div class="warning-box"><strong>📌 ملاحظة مهمة حول الفولات:</strong> الفولات هو الشكل الطبيعي لفيتامين B9 ويستخدم مباشرة من قبل الجسم، بينما حمض الفوليك هو الشكل الاصطناعي. الأشخاص الذين لديهم طفرات في جين MTHFR يحتاجون للفولات الطبيعي.</div>
+            <div class="section-title" style="border-right-color:#ed8936">⚠️ التحذيرات وموانع الاستخدام</div>
+            <div class="desc-text">• لا تتجاوز الجرعة الموصى بها (1–2 Gummy في اليوم).<br>• غير موصى به للنساء الحوامل أو المرضعات دون استشارة طبية.<br>• يحفظ بعيداً عن متناول الأطفال.<br>• البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية. ينصح بإخبار الطبيب أو المختبر قبل إجراء أي تحليل.<br>• يتفاعل البيوتين مع أدوية الصرع (carbamazepine, phenytoin, phenobarbital).</div>
+            <div class="section-title" style="border-right-color:#ed8936">👶 الفئات العمرية المسموحة</div>
+            <table class="age-table"><thead><tr><th>العمر</th><th>الجرعة الموصى بها</th></tr></thead><tbody><tr><td class="no-wrap">من 6 إلى 13 سنة</td><td>1 Gummy في اليوم</td><\/tr><tr><td class="no-wrap">من 14 سنة فأكثر</td><td>2 Gummy في اليوم</td><\/tr><\/tbody></table>
+            <div class="section-title" style="border-right-color:#ed8936">💊 التفاعلات الدوائية</div>
+            <div class="interactions-box">البيوتين قد يتفاعل مع أدوية الصرع (carbamazepine, phenytoin, phenobarbital) مما قد يخفض مستوياتها في الدم.</div>
+            <div class="section-title" style="border-right-color:#ed8936">⚠️ الآثار الجانبية المحتملة</div>
+            <div class="side-effects-box">في حالات نادرة: اضطرابات هضمية بسيطة (غثيان، انتفاخ)، حب شباب خفيف (نادر جداً عند الجرعات العالية من البيوتين)، تفاعلات حساسية جلدية نادرة.</div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 2. No Stress -->
+    <!-- ============================================================ -->
+    <div id="nostress" class="product-card">
+        <div class="product-header" style="background: linear-gradient(135deg,#2f855a,#48bb78)">
+            <div class="product-title">🌿 GUMMYBEAR No Stress</div>
+            <div class="product-dosage">🍬 الجرعة: 1–2 Gummies يومياً | 🧘 60 Gummies</div>
+        </div>
+        <div class="product-content">
+            <div class="section-title" style="border-right-color:#48bb78">📖 وصف المنتج</div>
+            <div class="desc-text">مكمل غذائي للمساعدة في إدارة التوتر، وتعزيز الاسترخاء، ودعم الصمود الذهني. تجمع التركيبة بين المستخلصات النباتية المكيفة (Adaptogens) والمهدئة التي تعمل بشكل تآزري للمساعدة في خفض مستويات الكورتيزول، وتقليل القلق، وتحسين التركيز.</div>
+            <div class="section-title" style="border-right-color:#48bb78">🧪 التركيبة النشطة (لكل Gummy)</div>
+            <table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th><th>الميزة</th></tr></thead>
+                <tbody><tr><td class="no-wrap">أشواغاندا KSM-66®</td><td>300 mg</td><td>يخفض الكورتيزول، يقلل القلق</td><td>الأكثر دراسة سريرياً (22 دراسة)</td><\/tr>
+                <tr><td class="no-wrap">زهرة الآلام</td><td>10 mg</td><td>تدعم مستويات GABA لتعزيز الاسترخاء دون نعاس</td><td>-<\/td><\/tr>
+                <tr><td class="no-wrap">بلسم الليمون</td><td>10 mg<\/td><td>يحسن المزاج، يقلل الأرق والتهيج<\/td><td>يعمل تآزرياً مع الأشواغاندا<\/td><\/tr>
+                </tbody>
+            </table>
+            <div class="section-title" style="border-right-color:#48bb78">⚠️ التحذيرات وموانع الاستخدام</div>
+            <div class="desc-text">• لا تتجاوز الجرعة الموصى بها.<br>• غير موصى به للحوامل أو المرضعات دون استشارة طبية.<br>• قد يسبب النعاس لدى بعض الأشخاص – لا يقود السيارة بعد تناوله.<br>• لا يستخدم لقرحة المعدة النشطة أو أمراض المناعة الذاتية دون استشارة طبية.<br>• غير موصى به لمن هم أقل من 18 سنة.</div>
+            <div class="section-title" style="border-right-color:#48bb78">👶 الفئات العمرية</div>
+            <table class="age-table"><thead><tr><th>العمر</th><th>الجرعة الموصى بها</th></tr></thead><tbody><tr><td class="no-wrap">أقل من 18 سنة</td><td>غير موصى به</td><\/tr><tr><td class="no-wrap">من 18 سنة فأكثر</td><td>2 Gummy في اليوم</td><\/tr><\/tbody></table>
+            <div class="section-title" style="border-right-color:#48bb78">💊 التفاعلات الدوائية</div>
+            <div class="interactions-box">قد يتفاعل مع مضادات الاكتئاب (SSRIs, SNRIs, MAOIs)، أدوية القلق والصرع والمهدئات، أدوية الضغط، أدوية السكري، وأدوية الغدة الدرقية.</div>
+            <div class="section-title" style="border-right-color:#48bb78">⚠️ الآثار الجانبية</div>
+            <div class="side-effects-box">نعاس خفيف، اضطرابات هضمية بسيطة (غثيان، إسهال)، صداع خفيف، جفاف الفم (نادرة).</div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 3. Multivitamin -->
+    <!-- ============================================================ -->
+    <div id="multi" class="product-card">
+        <div class="product-header" style="background: linear-gradient(135deg,#d53f8c,#ed64a6)">
+            <div class="product-title">🥇 GUMMYBEAR Multivitamin – Sugar Free</div>
+            <div class="product-dosage">🍬 الجرعة: 1–2 Gummies يومياً | 60 Gummies | خالٍ من السكر</div>
+        </div>
+        <div class="product-content">
+            <div class="desc-text">مكمل غذائي شامل لدعم الطاقة، المناعة، صحة العظام، صحة القلب، وجمال البشرة والشعر والأظافر. يحتوي على 16 مكوناً نشطاً.</div>
+            <table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody>
+                <tr><td class="no-wrap">فيتامين C</td><td>30 mg</td><td>يدعم المناعة وتخليق الكولاجين</td><\/tr>
+                <tr><td class="no-wrap">فيتامين E</td><td>14 mg</td><td>مضاد أكسدة<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين D3</td><td>10 µg</td><td>يدعم العظام والمناعة</td><\/tr>
+                <tr><td class="no-wrap">فيتامينات B</td><td>مجموعة</td><td>تدعم الطاقة والجهاز العصبي</td><\/tr>
+                <tr><td class="no-wrap">الفولات الطبيعي</td><td>400 µg</td><td>لوظيفة الدماغ وتخليق DNA</td><\/tr>
+                <tr><td class="no-wrap">البيوتين</td><td>150 µg</td><td>يدعم الشعر والبشرة</td><\/tr>
+                <tr><td class="no-wrap">اليود</td><td>40 µg</td><td>يدعم الغدة الدرقية</td><\/tr>
+                <tr><td class="no-wrap">الكروم</td><td>18 µg</td><td>يدعم توازن السكر</td><\/tr>
+                <tr><td class="no-wrap">الكالسيوم</td><td>100 mg</td><td>يدعم العظام والأسنان</td><\/tr>
+                <tr><td class="no-wrap">الزنك</td><td>2.2 mg</td><td>يدعم المناعة<\/td><\/tr>
+                </tbody>
+            </table>
+            <div class="warning-box">🍬 المنتج خالٍ من السكر تماماً – مناسب لمرضى السكري ومتبعين حمية الكيتو. يحتوي على يود (40µg) – يجب الحذر لدى مرضى الغدة الدرقية.</div>
+            <div class="interactions-box">الكالسيوم قد يتداخل مع المضادات الحيوية (فارق 2-3 ساعات) – الكروم يعزز تأثير أدوية السكري – يوصى باستشارة الطبيب للحوامل.</div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 4. Sleep -->
+    <!-- ============================================================ -->
+    <div id="sleep" class="product-card">
+        <div class="product-header" style="background: linear-gradient(135deg,#6b46c1,#9f7aea)">
+            <div class="product-title">🌙 GUMMYBEAR Sleep</div>
+            <div class="product-dosage">🍬 الجرعة: 1–2 Gummies يومياً | 60 Gummies</div>
+        </div>
+        <div class="product-content">
+            <div class="desc-text">مكمل غذائي لتعزيز النوم العميق والمريح، يجمع بين الميلاتونين والمستخلصات النباتية المهدئة.</div>
+            <table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody>
+                <tr><td class="no-wrap">ميلاتونين<\/td><td>1 mg<\/td><td>ينظم دورة النوم والاستيقاظ<\/td><\/tr>
+                <tr><td class="no-wrap">5-HTP<\/td><td>50 mg<\/td><td>مقدمة السيروتونين، يعزز النوم العميق<\/td><\/tr>
+                <tr><td class="no-wrap">زهرة الآلام<\/td><td>15 mg<\/td><td>تدعم GABA، تقلل الأرق العصبي<\/td><\/tr>
+                <tr><td class="no-wrap">بلسم الليمون<\/td><td>15 mg<\/td><td>يقلل التوتر ويحسن المزاج<\/td><\/tr>
+                <tr><td class="no-wrap">حشيشة الهر<\/td><td>15 mg<\/td><td>تقليل الوقت اللازم للنوم<\/td><\/tr>
+                </tbody>
+            </table>
+            <div class="warning-box">⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين). قد يسبب النعاس. غير موصى به لمن هم أقل من 18 سنة.</div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5. Magnesium -->
+    <!-- ============================================================ -->
+    <div id="magnesium" class="product-card">
+        <div class="product-header" style="background: linear-gradient(135deg,#319795,#38b2ac)">
+            <div class="product-title">💪 GUMMYBEAR Magnesium</div>
+            <div class="product-dosage">🍬 الجرعة: 2 Gummies يومياً | 60 Gummies</div>
+        </div>
+        <div class="product-content">
+            <div class="desc-text">مكمل لدعم استرخاء العضلات، وظيفة الأعصاب، وتقليل التعب. يجمع بين سترات المغنيسيوم وفيتامينات B6، B12، D3 لتعزيز الامتصاص.</div>
+            <table class="sci-table"><thead><td><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody>
+                <tr><td class="no-wrap">سترات المغنيسيوم</td><td>100 mg</td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين B6</td><td>1 mg</td><td>معزز امتصاص المغنيسيوم داخل الخلايا</td><\/tr>
+                <tr><td class="no-wrap">فيتامين B12<\/td><td>1.3 µg<\/td><td>يدعم الطاقة والجهاز العصبي<\/td><\/tr>
+                <tr><td class="no-wrap">فيتامين D3<\/td><td>2 µg<\/td><td>يعزز امتصاص الكالسيوم والمغنيسيوم<\/td><\/tr>
+                </tbody>
+            </table>
+            <div class="warning-box">⚠️ لا يستخدم للفشل الكلوي الحاد دون استشارة الطبيب. قد يتفاعل مع المضادات الحيوية (فارق 2-3 ساعات).</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>تم إعداد هذا المرجع العلمي بناءً على بيانات شركة الأداء الحديدي – آخر تحديث مايو 2026</p>
+        <p style="margin-top: 8px;">للتواصل: واتساب 218915120573 | إنستغرام we_are_gummy_bear</p>
+        <p><a href="index.html" style="color: #90cdf4;">🏠 العودة إلى القائمة الرئيسية</a></p>
+    </div>
+</div>
+</body>
+</html>
