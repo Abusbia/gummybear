@@ -1,0 +1,19 @@
+{
+  "name": "GummyBear",
+  "short_name": "GummyBear",
+  "description": "قائمة أسعار ومنتجات GummyBear",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1a365d",
+  "background_color": "#1a365d",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
