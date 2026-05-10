@@ -54,7 +54,6 @@
         body.modal-open { overflow: hidden; }
         .container { max-width: 1400px; margin: auto; }
 
-        /* ========== HEADER ========== */
         .header {
             background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
             color: white;
@@ -82,7 +81,35 @@
             margin-bottom: 24px;
         }
 
-        /* ========== PRODUCT GRID ========== */
+        /* ===== زر المرجع العلمي المحسن ===== */
+        .sci-ref-btn {
+            background: #2b6cb0;
+            color: white;
+            padding: 8px 24px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+            margin-bottom: 10px;
+        }
+        .sci-ref-btn:hover {
+            background: #1e4a76;
+            transform: translateY(-2px);
+        }
+        .sci-ref-text {
+            font-size: 0.9rem;
+        }
+        .sci-ref-click {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: #fbbf24;
+        }
+
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .card {
             background: var(--card-bg);
@@ -102,6 +129,22 @@
             padding: 3px 10px;
             font-size: 0.65rem;
             margin-top: 8px;
+        }
+        .details-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 999px;
+            padding: 3px 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-top: 6px;
+            color: #fbbf24;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+        }
+        .details-badge:hover {
+            background: rgba(255, 215, 0, 0.3);
+            color: #fde047;
         }
         .product-desc { font-size: 0.7rem; margin-top: 6px; opacity: 0.9; line-height: 1.5; }
         .card-body { padding: 16px; }
@@ -137,7 +180,6 @@
             .expiry { color: #f87171; }
         }
 
-        /* ========== STAND FOOTER ========== */
         .stand-footer {
             background: var(--stand-footer-bg);
             border: 1px solid var(--stand-footer-border);
@@ -149,7 +191,6 @@
         .stand-footer p { font-size: 0.85rem; font-weight: 600; color: var(--stand-footer-text); }
         .stand-footer small { font-size: 0.7rem; color: var(--stand-footer-text); opacity: 0.85; }
 
-        /* ========== SOCIAL FOOTER ========== */
         .footer {
             background: var(--footer-bg);
             color: var(--footer-text);
@@ -163,7 +204,6 @@
         .footer a:hover { opacity: 0.8; }
         hr { width: 60px; margin: 10px auto; border: none; height: 1px; background: #4a5568; }
 
-        /* ========== PRODUCT POPUP ========== */
         .popup-overlay {
             position: fixed; inset: 0; background: var(--popup-bg); backdrop-filter: blur(4px);
             display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden;
@@ -200,7 +240,6 @@
         .popup-content ul { list-style: none; padding: 0; font-size: 0.75rem; }
         .popup-content li { margin-bottom: 6px; }
 
-        /* ========== ORDER POPUP ========== */
         .stand-offer-checkbox {
             display: flex;
             align-items: center;
@@ -283,12 +322,12 @@
         }
         .order-btn:hover { background: #38a169; }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 600px) {
             .order-row { flex-direction: column; align-items: flex-start; gap: 8px; }
             .order-row input { width: 100%; }
             .stand-offer-checkbox { flex-direction: column; align-items: flex-start; gap: 8px; }
             .stand-offer-checkbox input { width: 100%; }
+            .sci-ref-btn { flex-direction: column; gap: 6px; padding: 10px 20px; }
         }
         @media print {
             .order-btn, .popup-overlay { display: none; }
@@ -299,7 +338,6 @@
 <body>
 
 <div class="container">
-    <!-- HEADER -->
     <div class="header">
         <h1>GUMMYBEAR</h1>
         <p>مكملات غذائية متطورة · حلوى هلامية (Gummies) · 60 قطعة لكل عبوة</p>
@@ -307,20 +345,20 @@
     </div>
     <div class="company-name">شركة الأداء الحديدي لاستيراد المكملات الغذائية والفيتامينات</div>
 
-<div style="text-align: center; margin: 10px 0 20px 0;">
-    <a href="science.html" style="background: #2b6cb0; color: white; padding: 8px 20px; border-radius: 40px; text-decoration: none; font-weight: 700; display: inline-block;">📚 المرجع العلمي الكامل للمنتجات</a>
-</div>
+    <div style="text-align: center; margin: 10px 0 20px 0;">
+        <a href="science.html" class="sci-ref-btn">
+            <span class="sci-ref-text">📚 المرجع العلمي الكامل للمنتجات</span>
+            <span class="sci-ref-click">🔽 اضغط للتفاصيل العلمية</span>
+        </a>
+    </div>
     
-    <!-- PRODUCTS GRID -->
     <div class="grid" id="productsGrid"></div>
 
-    <!-- STAND OFFER FOOTER -->
     <div class="stand-footer">
         <p>📦 قيمة الفاتورة لـ 25 قطعة (5 قطع من كل نوع) + ستاند عرض مجاني = 2070 دينار</p>
         <small>✨ قيمة الستاند 90 دينار – يمنح مجانا مع طلبية 25 قطعة</small>
     </div>
 
-    <!-- SOCIAL FOOTER -->
     <div class="footer">
         <p>ستاند العرض متوفر بكمية محدودة للدفعة الأولى</p>
         <hr>
@@ -339,10 +377,8 @@
     </div>
 </div>
 
-<!-- ORDER BUTTON -->
 <button class="order-btn" id="openOrderBtn">📋 إنشاء طلبية</button>
 
-<!-- PRODUCT POPUP -->
 <div id="productPopup" class="popup-overlay">
     <div class="popup-modal">
         <div class="popup-header"><h2 id="popupTitle"></h2><button class="close-btn" id="closeProductPopup">✕</button></div>
@@ -351,7 +387,6 @@
     </div>
 </div>
 
-<!-- ORDER POPUP -->
 <div id="orderPopup" class="popup-overlay">
     <div class="popup-modal">
         <div class="popup-header"><h2>📋 إنشاء طلبية</h2><button class="close-btn" id="closeOrderPopup">✕</button></div>
@@ -373,51 +408,48 @@
 </div>
 
 <script>
-    // PRODUCT DATA WITH CORRECT NAMES
     const PRODUCTS = [
         { id: "hsn", name: "Hair, Skin & Nails", displayName: "👑 Hair, Skin & Nails", color: "#dd6b20", colorGrad: "linear-gradient(135deg,#dd6b20,#ed8936)", tagline: "High Potency Therapeutic Formula", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "07/2027", 
           desc: `🌿 Rich in Biotin 5000mcg + Natural Folate + 10 ingredients`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">البيوتين</td><td>5000 µg</td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر</td></tr><tr><td class="no-wrap">فيتامين أ</td><td>450 µg</td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس</td></tr><tr><td class="no-wrap">فيتامين E</td><td>14 mg</td><td>مضاد أكسدة قوي</td></tr><tr><td class="no-wrap">الزنك</td><td>3 mg</td><td>يساعد في منع تساقط الشعر</td></tr><tr><td class="no-wrap">فيتامين D3</td><td>4 µg</td><td>يدعم دورة نمو بصيلات الشعر</td></tr><tr><td class="no-wrap">فيتامين C</td><td>20 mg</td><td>ضروري لإنتاج الكولاجين</td></tr><tr><td class="no-wrap">فيتامين B12</td><td>8 µg</td><td>يدعم تكوين خلايا الدم</td></tr><tr><td class="no-wrap">فيتامين B6</td><td>2 mg</td><td>يدعم إنتاج البروتين</td></tr><tr><td class="no-wrap">فيتامين B5</td><td>10 mg</td><td>يدعم توازن الرطوبة</td></tr><tr><td class="no-wrap">فيتامين B3</td><td>8 mg</td><td>يدعم إنتاج الطاقة</td></tr><tr><td class="no-wrap">فيتامين B2</td><td>400 µg</td><td>يدعم الطاقة الخلوية</td></tr><tr><td class="no-wrap">الفولات (طبيعي)</td><td>100 µg</td><td>يدعم انقسام الخلايا</td></tr></tbody></table><div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.</div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">البيوتين<\/td><td>5000 µg<\/td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر<\/td><\/tr><tr><td class="no-wrap">فيتامين أ<\/td><td>450 µg<\/td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة قوي<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>3 mg<\/td><td>يساعد في منع تساقط الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>4 µg<\/td><td>يدعم دورة نمو بصيلات الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين C<\/td><td>20 mg<\/td><td>ضروري لإنتاج الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين B12<\/td><td>8 µg<\/td><td>يدعم تكوين خلايا الدم<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>2 mg<\/td><td>يدعم إنتاج البروتين<\/td><\/tr><tr><td class="no-wrap">فيتامين B5<\/td><td>10 mg<\/td><td>يدعم توازن الرطوبة<\/td><\/tr><tr><td class="no-wrap">فيتامين B3<\/td><td>8 mg<\/td><td>يدعم إنتاج الطاقة<\/td><\/tr><tr><td class="no-wrap">فيتامين B2<\/td><td>400 µg<\/td><td>يدعم الطاقة الخلوية<\/td><\/tr><tr><td class="no-wrap">الفولات (طبيعي)<\/td><td>100 µg<\/td><td>يدعم انقسام الخلايا<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.<\/div>`,
           warnings: `<ul><li>⚠️ البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية.</li><li>⚠️ يتفاعل مع أدوية الصرع.</li><li>⚠️ غير موصى به للحوامل دون استشارة طبية.</li><li>⚠️ الجرعة اليومية: 1-2 Gummy حسب العمر.</li></ul>`
         },
         { id: "nostress", name: "No Stress", displayName: "🌿 No Stress", color: "#2f855a", colorGrad: "linear-gradient(135deg,#2f855a,#48bb78)", tagline: "Calm without Drowsiness", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "12/2027", 
           desc: `🌿 Ashwagandha KSM-66 300mg<br>✨ KSM-66 is a premium branded ingredient`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">أشواغاندا KSM-66</td><td>300 mg</td><td>يخفض الكورتيزول، يقلل القلق</td></tr><tr><td class="no-wrap">زهرة الآلام</td><td>10 mg</td><td>تدعم GABA لتعزيز الاسترخاء دون نعاس</td></tr><tr><td class="no-wrap">بلسم الليمون</td><td>10 mg</td><td>يحسن المزاج، يقلل الأرق والتهيج</td></tr></tbody></table><div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).</div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">أشواغاندا KSM-66<\/td><td>300 mg<\/td><td>يخفض الكورتيزول، يقلل القلق<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>10 mg<\/td><td>تدعم GABA لتعزيز الاسترخاء دون نعاس<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>10 mg<\/td><td>يحسن المزاج، يقلل الأرق والتهيج<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).<\/div>`,
           warnings: `<ul><li>⚠️ قد يسبب النعاس – لا يقود السيارة بعد تناوله.</li><li>⚠️ يتفاعل مع مضادات الاكتئاب وأدوية الضغط.</li><li>⚠️ لا يستخدم لقرحة المعدة أو أمراض المناعة الذاتية دون استشارة.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li></ul>`
         },
         { id: "multi", name: "Multivitamin - Sugar-Free", displayName: "🥇 Multivitamin - Sugar-Free", color: "#d53f8c", colorGrad: "linear-gradient(135deg,#d53f8c,#ed64a6)", tagline: "Smart Nutrition, Zero Sugar", retail: 115, pharmacy: 91, bulk: 82, profitSingle: 24, profitBulk: 600, expiry: "11/2027", 
           desc: `🌿 16 essential vitamins & minerals.<br>✨ Safe for diabetics & Keto-friendly`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">فيتامين C</td><td>30 mg</td><td>يدعم المناعة وتخليق الكولاجين</td></tr><tr><td class="no-wrap">فيتامين E</td><td>14 mg</td><td>مضاد أكسدة</td></tr><tr><td class="no-wrap">فيتامين D3</td><td>10 µg</td><td>يدعم العظام والمناعة</td></tr><tr><td class="no-wrap">فيتامينات B</td><td>متنوعة</td><td>تدعم الطاقة والجهاز العصبي</td></tr><tr><td class="no-wrap">الفولات الطبيعي</td><td>400 µg</td><td>لوظيفة الدماغ وتخليق DNA</td></tr><tr><td class="no-wrap">البيوتين</td><td>150 µg</td><td>يدعم الشعر والبشرة</td></tr><tr><td class="no-wrap">اليود</td><td>40 µg</td><td>يدعم الغدة الدرقية</td></tr><tr><td class="no-wrap">الكروم</td><td>18 µg</td><td>يدعم توازن السكر</td></tr><tr><td class="no-wrap">الكالسيوم</td><td>100 mg</td><td>يدعم العظام والأسنان</td></tr><tr><td class="no-wrap">الزنك</td><td>2.2 mg</td><td>يدعم المناعة</td></tr></tbody></table><div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.</div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">فيتامين C<\/td><td>30 mg<\/td><td>يدعم المناعة وتخليق الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>10 µg<\/td><td>يدعم العظام والمناعة<\/td><\/tr><tr><td class="no-wrap">فيتامينات B<\/td><td>متنوعة<\/td><td>تدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">الفولات الطبيعي<\/td><td>400 µg<\/td><td>لوظيفة الدماغ وتخليق DNA<\/td><\/tr><tr><td class="no-wrap">البيوتين<\/td><td>150 µg<\/td><td>يدعم الشعر والبشرة<\/td><\/tr><tr><td class="no-wrap">اليود<\/td><td>40 µg<\/td><td>يدعم الغدة الدرقية<\/td><\/tr><tr><td class="no-wrap">الكروم<\/td><td>18 µg<\/td><td>يدعم توازن السكر<\/td><\/tr><tr><td class="no-wrap">الكالسيوم<\/td><td>100 mg<\/td><td>يدعم العظام والأسنان<\/td><\/tr></tr><td class="no-wrap">الزنك<\/td><td>2.2 mg<\/td><td>يدعم المناعة<\/td><\/tr><\/tbody><\/table><div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.<\/div>`,
           warnings: `<ul><li>⚠️ يحتوي على يود – الحذر مع أمراض الغدة الدرقية.</li><li>⚠️ الكالسيوم قد يتداخل مع المضادات الحيوية.</li><li>⚠️ الكروم يعزز تأثير أدوية السكري (مراقبة مطلوبة).</li><li>⚠️ ينصح النساء الحوامل باستشارة الطبيب قبل الاستخدام.</li></ul>`
         },
         { id: "sleep", name: "Sleep", displayName: "🌙 Sleep", color: "#6b46c1", colorGrad: "linear-gradient(135deg,#6b46c1,#9f7aea)", tagline: "Restful Nights, Refreshing Mornings", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "02/2027", 
           desc: `🌿 Advanced formula with Melatonin + 5-HTP + 4 Herbs<br>✨ Natural solution for better sleep quality`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">ميلاتونين</td><td>1 mg</td><td>ينظم دورة النوم والاستيقاظ</td></tr><tr><td class="no-wrap">5-HTP</td><td>50 mg</td><td>مقدمة السيروتونين</td></tr><tr><td class="no-wrap">زهرة الآلام</td><td>15 mg</td><td>تدعم GABA</td></tr><tr><td class="no-wrap">بلسم الليمون</td><td>15 mg</td><td>يقلل التوتر ويحسن المزاج</td></tr><tr><td class="no-wrap">حشيشة الهر</td><td>15 mg</td><td>تقليل الوقت اللازم للنوم</td></tr></tbody></table><div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).</div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">ميلاتونين<\/td><td>1 mg<\/td><td>ينظم دورة النوم والاستيقاظ<\/td><\/tr><tr><td class="no-wrap">5-HTP<\/td><td>50 mg<\/td><td>مقدمة السيروتونين<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>15 mg<\/td><td>تدعم GABA<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>15 mg<\/td><td>يقلل التوتر ويحسن المزاج<\/td><\/tr><tr><td class="no-wrap">حشيشة الهر<\/td><td>15 mg<\/td><td>تقليل الوقت اللازم للنوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).<\/div>`,
           warnings: `<ul><li>⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين).</li><li>⚠️ قد يسبب النعاس.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ قد يسبب أحلاما مزعجة.</li></ul>`
         },
         { id: "magnesium", name: "Magnesium", displayName: "💪 Magnesium", color: "#319795", colorGrad: "linear-gradient(135deg,#319795,#38b2ac)", tagline: "Essential Muscle & Nerve Support", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "11/2027", 
           desc: `🌿 Magnesium Citrate with B6+B12+D3<br>✨ For maximum absorption & energy recovery`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم</td><td>100 mg</td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب</td></tr><tr><td class="no-wrap">فيتامين B6</td><td>1 mg</td><td>معزز امتصاص المغنيسيوم</td></tr><tr><td class="no-wrap">فيتامين B12</td><td>1.3 µg</td><td>يدعم الطاقة والجهاز العصبي</td></tr><tr><td class="no-wrap">فيتامين D3</td><td>2 µg</td><td>يعزز امتصاص الكالسيوم والمغنيسيوم</td></tr></tbody></table><div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.</div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم<\/td><td>100 mg<\/td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>1 mg<\/td><td>معزز امتصاص المغنيسيوم<\/td><\/tr><tr><td class="no-wrap">فيتامين B12<\/td><td>1.3 µg<\/td><td>يدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>2 µg<\/td><td>يعزز امتصاص الكالسيوم والمغنيسيوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.<\/div>`,
           warnings: `<ul><li>⚠️ موانع استخدام: الفشل الكلوي الحاد دون استشارة الطبيب.</li><li>⚠️ قد يتفاعل مع المضادات الحيوية – فارق 2-3 ساعات.</li><li>⚠️ الجرعة اليومية: حبتان للبالغين.</li></ul>`
         }
     ];
 
-    // RENDER PRODUCTS
     function renderProducts() {
         const grid = document.getElementById('productsGrid');
         grid.innerHTML = PRODUCTS.map(p => `
             <div class="card">
                 <div class="card-header" style="background:${p.colorGrad}" data-id="${p.id}">
                     <div class="product-name">${p.displayName}</div>
-                    <div class="gummies-badge">🍬 60 Gummies · اضغط للتفاصيل</div>
+                    <div class="gummies-badge">🍬 60 Gummies</div>
+                    <div class="details-badge">📚 اضغط للتفاصيل العلمية</div>
                     <div class="product-desc">${p.desc}</div>
                 </div>
                 <div class="card-body">
                     <div class="tagline-ltr" style="border-left-color:${p.color}">"${p.tagline}"</div>
                     <table class="pricing-table">
-                        <thead>
-                            <tr><th>النوع</th><th>السعر</th><th>ملاحظات</th></tr>
-                        </thead>
+                        <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th></tr></thead>
                         <tbody>
                             <tr><td class="no-wrap">💰 سعر المستهلك</td><td class="price-main">${p.retail}.00</td><td class="note-text">-</td></tr>
                             <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)</td><td class="offer-price">${p.pharmacy}.00</td><td class="note-text">هامش ربح ${p.profitSingle}</td></tr>
@@ -433,7 +465,6 @@
         });
     }
 
-    // PRODUCT POPUP
     const productPopup = document.getElementById('productPopup');
     const popupTitle = document.getElementById('popupTitle');
     const tabComp = document.getElementById('tabComp');
@@ -458,7 +489,6 @@
     }));
     document.getElementById('closeProductPopup').addEventListener('click', closeProductPopup);
     
-    // ORDER POPUP
     const orderPopup = document.getElementById('orderPopup');
     const orderFields = document.getElementById('orderFields');
     const standQtyInput = document.getElementById('standQty');
@@ -486,23 +516,17 @@
         const standQty = getValueFromInput('standQty');
         let total = 0;
         let hasItems = false;
-        let standItems = [];
-        let regularItems = [];
 
         if (standQty > 0) {
             hasItems = true;
-            const standTotal = standQty * 2070;
-            total += standTotal;
-            standItems.push({ qty: standQty, total: standTotal });
+            total += standQty * 2070;
         }
 
         PRODUCTS.forEach(p => {
             const qty = getValueFromInput(`order-${p.id}`);
             if (qty > 0) {
                 hasItems = true;
-                const subtotal = getProductPrice(qty, p);
-                total += subtotal;
-                regularItems.push({ name: p.name, qty: qty, total: subtotal });
+                total += getProductPrice(qty, p);
             }
         });
 
@@ -510,28 +534,12 @@
 
         if (hasItems && total > 0) {
             let message = 'مرحباً، أود طلب:\n\n';
-            
-            if (standItems.length > 0) {
-                message += `---[ عروض الستاند ]---\n`;
-                standItems.forEach(item => {
-                    message += `> ${item.qty} × عرض الستاند (باقة 25 قطعة)\n`;
-                    message += `  - السعر: ${item.total} دينار\n`;
-                });
-                message += `\n`;
-            }
-
-            if (regularItems.length > 0) {
-                message += `---[ الطلبات العادية ]---\n`;
-                regularItems.forEach(item => {
-                    message += `> ${item.qty} × ${item.name}\n`;
-                    message += `  - الإجمالي: ${item.total} دينار\n`;
-                });
-                message += `\n`;
-            }
-
-            message += `---[ إجمالي الطلبية ]---\n`;
-            message += `> المبلغ الإجمالي: ${total} دينار\n`;
-
+            if (standQty > 0) message += `> ${standQty} × عرض الستاند (باقة 25 قطعة) = ${standQty * 2070} دينار\n`;
+            PRODUCTS.forEach(p => {
+                const qty = getValueFromInput(`order-${p.id}`);
+                if (qty > 0) message += `> ${qty} × ${p.name} = ${getProductPrice(qty, p)} دينار\n`;
+            });
+            message += `\n> الإجمالي: ${total} دينار`;
             whatsappOrderLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
             whatsappOrderLink.classList.remove('disabled');
         } else {
