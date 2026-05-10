@@ -58,18 +58,64 @@
             padding: 6px 14px;
             font-size: 0.75rem;
         }
+        
+        /* ===== تحسين زر العودة ===== */
         .back-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             background: #2b6cb0;
             color: white;
             padding: 8px 20px;
             border-radius: 40px;
             text-decoration: none;
             font-weight: 700;
+            transition: 0.2s;
             margin-bottom: 20px;
         }
-        .back-btn:hover { background: #1a4d7a; }
+        .back-btn:hover {
+            background: #1e4a76;
+            transform: translateX(-4px);
+        }
+        .back-click {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #fbbf24;
+        }
         
+        /* ===== زر العودة إلى الأعلى ===== */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2b6cb0;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 18px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .scroll-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .scroll-top-btn:hover {
+            background: #1e4a76;
+            transform: translateY(-2px);
+        }
+
         .toc {
             background: var(--card-bg);
             border-radius: 20px;
@@ -189,10 +235,11 @@
             .age-table th, .age-table td,
             .interaction-table th, .interaction-table td { padding: 6px 4px; }
             .product-title { font-size: 1.1rem; }
+            .back-click { font-size: 0.6rem; }
         }
         @media print {
             body { background: white; padding: 10px; }
-            .footer, .back-btn, .toc { display: none; }
+            .footer, .back-btn, .toc, .scroll-top-btn { display: none; }
             .product-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
         }
     </style>
@@ -200,7 +247,11 @@
 <body>
 <div class="container">
     <div style="text-align: center;">
-        <a href="index.html" class="back-btn">🏠 العودة إلى القائمة الرئيسية</a>
+        <a href="index.html" class="back-btn">
+            <span class="back-icon">🏠</span>
+            <span class="back-text">العودة إلى القائمة الرئيسية</span>
+            <span class="back-click">🔽 اضغط للرجوع</span>
+        </a>
     </div>
     <div class="header">
         <h1>GummyBear</h1>
@@ -219,9 +270,7 @@
         </ul>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 1. Hair, Skin & Nails -->
-    <!-- ============================================================ -->
+    <!-- ===== المنتجات (نفس المحتوى السابق كاملاً) ===== -->
     <div id="hsn" class="product-card">
         <div class="product-header" style="background: linear-gradient(135deg,#dd6b20,#ed8936)">
             <div class="product-title">🧸 GUMMYBEAR Hair, Skin & Nails</div>
@@ -265,9 +314,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 2. No Stress -->
-    <!-- ============================================================ -->
+    <!-- No Stress -->
     <div id="nostress" class="product-card">
         <div class="product-header" style="background: linear-gradient(135deg,#2f855a,#48bb78)">
             <div class="product-title">🧸 GUMMYBEAR No Stress</div>
@@ -284,15 +331,13 @@
             <div class="section-title" style="border-right-color:#48bb78">👶 الفئات العمرية المسموحة</div>
             <table class="age-table"><thead><tr><th>العمر</th><th>الجرعة الموصى بها</th></tr></thead><tbody><tr><td class="no-wrap">أقل من 18 سنة</td><td>غير موصى به (نقص البيانات عن سلامة الأشواغاندا للأطفال)</td></tr><tr><td class="no-wrap">من 18 سنة فأكثر</td><td>2 "Gummy" في اليوم</td></tr></tbody></table>
             <div class="section-title" style="border-right-color:#48bb78">💊 التفاعلات الدوائية</div>
-            <table class="interaction-table"><thead><tr><th>الفئة</th><th>الدواء</th><th>نوع التفاعل</th></tr></thead><tbody><tr><td>مضادات الاكتئاب</td><td>(SSRIs, SNRIs, MAOIs)</td><td>قد يزيد من تأثيرها المهدئ أو يسبب متلازمة السيروتونين</td></tr><tr><td>أدوية القلق والصرع والمهدئات</td><td>(benzodiazepines, barbiturates)</td><td>يعزز تأثيرها المهدئ والنعاس</td></tr><tr><td>أدوية الضغط</td><td>(beta-blockers, calcium channel blockers)</td><td>قد يخفض الضغط بشكل إضافي</td></tr><tr><td>أدوية السكري</td><td>(insulin, metformin)</td><td>قد يخفض سكر الدم (مراقبة مطلوبة)</td></tr><tr><td>أدوية الغدة الدرقية</td><td>(levothyroxine)</td><td>قد يتداخل مع امتصاصها</td></tr></tbody></table>
+            <table class="interaction-table"><thead><tr><th>الفئة</th><th>الدواء</th><th>نوع التفاعل</th></tr></thead><tbody><tr><td class="no-wrap">مضادات الاكتئاب</td><td>(SSRIs, SNRIs, MAOIs)</td><td>قد يزيد من تأثيرها المهدئ أو يسبب متلازمة السيروتونين</td></tr><tr><td class="no-wrap">أدوية القلق والصرع والمهدئات</td><td>(benzodiazepines, barbiturates)</td><td>يعزز تأثيرها المهدئ والنعاس</td></tr><tr><td class="no-wrap">أدوية الضغط</td><td>(beta-blockers, calcium channel blockers)</td><td>قد يخفض الضغط بشكل إضافي</td></tr><tr><td class="no-wrap">أدوية السكري</td><td>(insulin, metformin)</td><td>قد يخفض سكر الدم (مراقبة مطلوبة)</td></tr><tr><td class="no-wrap">أدوية الغدة الدرقية</td><td>(levothyroxine)</td><td>قد يتداخل مع امتصاصها</td></tr></tbody></table>
             <div class="section-title" style="border-right-color:#48bb78">⚠️ الآثار الجانبية المحتملة</div>
             <div class="side-effects-box">في حالات نادرة، قد تحدث: نعاس خفيف، اضطرابات هضمية بسيطة (غثيان، إسهال)، صداع خفيف، جفاف الفم.</div>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 3. Multivitamin -->
-    <!-- ============================================================ -->
+    <!-- Multivitamin -->
     <div id="multi" class="product-card">
         <div class="product-header" style="background: linear-gradient(135deg,#d53f8c,#ed64a6)">
             <div class="product-title">🧸 GUMMYBEAR Multivitamin – Sugar Free</div>
@@ -300,10 +345,30 @@
         </div>
         <div class="product-content">
             <div class="section-title" style="border-right-color:#ed64a6">📋 معلومات المنتج</div>
-            <table class="info-table"><thead><tr><th>البند</th><th>التفاصيل</th></tr></thead><tbody><tr><td class="no-wrap">اسم المنتج</td><td>فيتامينات متعددة – خالية من السكر</td></tr><tr><td class="no-wrap">الفئة</td><td>مكمل غذائي</td></tr><tr><td class="no-wrap">الجرعة</td><td>من 1 إلى 2 "Gummy" في اليوم</td></tr><tr><td class="no-wrap">طريقة الاستخدام</td><td>عن طريق الفم</td></tr><tr><td class="no-wrap">حجم العبوة</td><td>60 "Gummy" في سعة 200 مل.</td></tr></tbody></table>
+            <table class="info-table"><thead><tr><th>البند</th><th>التفاصيل</th></tr></thead><tbody><tr><td class="no-wrap">اسم المنتج</td><td>فيتامينات متعددة – خالية من السكر</td></tr><tr><td class="no-wrap">الفئة</td><td>مكمل غذائي</td></tr><tr><td class="no-wrap">الجرعة</td><td>من 1 إلى 2 "Gummy" في اليوم</td></tr><tr><td class="no-wrap">طريقة الاستخدام</td><td>عن طريق الفم</td></tr>
+                <tr><td class="no-wrap">حجم العبوة</td><td class="no-wrap">60 "Gummy" في سعة 200 مل.</td></tr>
+            </tbody>
+        </table>
             <div class="desc-text">هو مكمل غذائي شامل على شكل حلوى هلامية (gummy)، تم تركيبه لدعم الطاقة، المناعة، صحة العظام، صحة القلب، وجمال البشرة والشعر والأظافر. تجمع التركيبة بين الفيتامينات الأساسية والمعادن التي تعمل بشكل تآزري للمساعدة في الحفاظ على الصحة العامة والحيوية. تم اختيار كل مكون بعناية لدوره الغذائي المحدد في إنتاج الطاقة، دعم المناعة، صحة العظام، والحماية المضادة للأكسدة.</div>
             <div class="section-title" style="border-right-color:#ed64a6">🧪 التركيبة النشطة (لكل Gummy – 15 مكوناً)</div>
-            <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody><tr><td>فيتامين C</td><td>30mg</td><td>يدعم وظيفة المناعة وتخليق الكولاجين لصحة البشرة والأنسجة.</td><td>يعمل كمضاد أكسدة قوي يحمي الخلايا من الإجهاد التأكسدي.</td><td>National Institutes of Health (NIH) - Vitamin C Fact Sheet</td></tr><tr><td>فيتامين E</td><td>14mg</td><td>ضروري للرؤية والتكاثر وصحة الدم والدماغ والبشرة.</td><td>يوفر خصائص مضادة للالتهابات ويعزز الاستجابة المناعية.</td><td>Mayo Clinic - Vitamin E Information</td></tr><tr><td>فيتامين D3</td><td>10mcg (400 IU)</td><td>ضروري لامتصاص الكالسيوم وتمعدن العظام.</td><td>أساسي للحفاظ على قوة العضلات ودعم جهاز المناعة.</td><td>Harvard T.H. Chan - Vitamin D</td></tr><tr><td>فيتامين B1</td><td>1.2mg</td><td>يساعد الجسم على تحويل الطعام (الكربوهيدرات) إلى وقود (جلوكوز) للطاقة.</td><td>حيوي للحفاظ على صحة الأعصاب وصحة القلب.</td><td>Mount Sinai Health - Thiamine (B1)</td></tr><tr><td>فيتامين B2</td><td>1.3mg</td><td>ضروري لإنتاج الطاقة والوظيفة الخلوية.</td><td>يساعد في الحفاظ على صحة الرؤية والبشرة مع تقليل الإجهاد التأكسدي.</td><td>Oregon State University - Linus Pauling Institute</td></tr><tr><td>فيتامين B3</td><td>8mg</td><td>يساعد في الحفاظ على صحة الجهاز العصبي والجهاز الهضمي والجلد.</td><td>يحسن مستويات الكوليسترول ويدعم صحة القلب والأوعية الدموية.</td><td>WebMD - Niacin (Vitamin B3)</td></tr><tr><td>فيتامين B5</td><td>5mg</td><td>ضروري لتكوين خلايا الدم وتحويل الطعام إلى طاقة.</td><td>يدعم الغدد الكظرية ويساعد في إدارة مستويات التوتر.</td><td>Cleveland Clinic - Vitamin B5</td></tr><tr><td>فيتامين B6</td><td>1.6mg</td><td>يدعم نمو الدماغ ويحافظ على صحة الجهاز العصبي والمناعي.</td><td>أساسي لإنتاج الهيموغلوبين وتنظيم المزاج.</td><td>Mayo Clinic - Vitamin B6</td></tr><tr><td>فيتامين B12</td><td>2.4mcg</td><td>حيوي لتكوين خلايا الدم الحمراء، إنتاج الطاقة في الخلايا ووظيفة الأعصاب.</td><td>يساعد في منع فقر الدم الضخم الأرومات ويدعم تخليق الحمض النووي.</td><td>NIH Office of Dietary Supplements</td></tr><tr><td>الفولات</td><td>400mcg</td><td>ضروري لوظيفة الدماغ المناسبة والصحة العقلية والعاطفية.</td><td>يساعد في إنتاج DNA و RNA، خاصة خلال فترات النمو السريع.</td><td>CDC - Folic Acid and Folate</td></tr><tr><td>البيوتين</td><td>150mcg</td><td>يحول بعض العناصر الغذائية إلى طاقة ويدعم صحة الشعر والبشرة والأظافر.</td><td>يلعب دوراً رئيسياً في النمو الجنيني وصحة الكبد.</td><td>Healthline - Biotin Benefits</td></tr><tr><td>اليود</td><td>40mcg</td><td>ضروري لإنتاج هرمونات الغدة الدرقية.</td><td>يدعم معدل الأيض "معدل حرق الطاقة"، والوظيفة الإدراكية والنمو والتطور.</td><td>American Thyroid Association</td></tr><tr><td>الكروم</td><td>18mcg</td><td>يعزز عمل الأنسولين ويدخل في تحويل الكربوهيدرات والدهون والبروتينات إلى طاقة.</td><td>يساعد في الحفاظ على مستويات طبيعية للسكر في الدم، مما يجعله مثالياً للتركيبة الخالية من السكر.</td><td>NIH - Chromium Fact Sheet</td></tr><tr><td>الكالسيوم</td><td>100mg</td><td>ضروري لبناء والحفاظ على عظام وأسنان قوية.</td><td>ضروري لتقلص العضلات، والإشارات العصبية، وتجلط الدم.</td><td>National Osteoporosis Foundation</td></tr><tr><td>الزنك</td><td>2.2mg</td><td>يساعد جهاز المناعة على محاربة البكتيريا والفيروسات الغازية.</td><td>ضروري لشفاء الجروح وحاستي التذوق والشم.</td><td>Johns Hopkins Medicine - Zinc</td></tr></tbody></table>
+            <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
+                <tr><td class="no-wrap">فيتامين C</td><td>30mg</td><td>يدعم وظيفة المناعة وتخليق الكولاجين لصحة البشرة والأنسجة.</td><td>يعمل كمضاد أكسدة قوي يحمي الخلايا من الإجهاد التأكسدي.</td><td>National Institutes of Health (NIH) - Vitamin C Fact Sheet</td></tr>
+                <tr><td class="no-wrap">فيتامين E</td><td>14mg</td><td>ضروري للرؤية والتكاثر وصحة الدم والدماغ والبشرة.</td><td>يوفر خصائص مضادة للالتهابات ويعزز الاستجابة المناعية.</td><td>Mayo Clinic - Vitamin E Information</td></tr>
+                <tr><td class="no-wrap">فيتامين D3</td><td>10mcg (400 IU)</td><td>ضروري لامتصاص الكالسيوم وتمعدن العظام.</td><td>أساسي للحفاظ على قوة العضلات ودعم جهاز المناعة.</td><td>Harvard T.H. Chan - Vitamin D</td></tr>
+                <tr><td class="no-wrap">فيتامين B1</td><td>1.2mg</td><td>يساعد الجسم على تحويل الطعام (الكربوهيدرات) إلى وقود (جلوكوز) للطاقة.</td><td>حيوي للحفاظ على صحة الأعصاب وصحة القلب.</td><td>Mount Sinai Health - Thiamine (B1)</td></tr>
+                <tr><td class="no-wrap">فيتامين B2</td><td>1.3mg</td><td>ضروري لإنتاج الطاقة والوظيفة الخلوية.</td><td>يساعد في الحفاظ على صحة الرؤية والبشرة مع تقليل الإجهاد التأكسدي.</td><td>Oregon State University - Linus Pauling Institute</td></tr>
+                <tr><td class="no-wrap">فيتامين B3</td><td>8mg</td><td>يساعد في الحفاظ على صحة الجهاز العصبي والجهاز الهضمي والجلد.</td><td>يحسن مستويات الكوليسترول ويدعم صحة القلب والأوعية الدموية.</td><td>WebMD - Niacin (Vitamin B3)</td></tr>
+                <tr><td class="no-wrap">فيتامين B5</td><td>5mg</td><td>ضروري لتكوين خلايا الدم وتحويل الطعام إلى طاقة.</td><td>يدعم الغدد الكظرية ويساعد في إدارة مستويات التوتر.</td><td>Cleveland Clinic - Vitamin B5</td></tr>
+                <tr><td class="no-wrap">فيتامين B6</td><td>1.6mg</td><td>يدعم نمو الدماغ ويحافظ على صحة الجهاز العصبي والمناعي.</td><td>أساسي لإنتاج الهيموغلوبين وتنظيم المزاج.</td><td>Mayo Clinic - Vitamin B6</td></tr>
+                <tr><td class="no-wrap">فيتامين B12</td><td>2.4mcg</td><td>حيوي لتكوين خلايا الدم الحمراء، إنتاج الطاقة في الخلايا ووظيفة الأعصاب.</td><td>يساعد في منع فقر الدم الضخم الأرومات ويدعم تخليق الحمض النووي.</td><td>NIH Office of Dietary Supplements</td></tr>
+                <tr><td class="no-wrap">الفولات</td><td>400mcg</td><td>ضروري لوظيفة الدماغ المناسبة والصحة العقلية والعاطفية.</td><td>يساعد في إنتاج DNA و RNA، خاصة خلال فترات النمو السريع.</td><td>CDC - Folic Acid and Folate</td></tr>
+                <tr><td class="no-wrap">البيوتين</td><td>150mcg</td><td>يحول بعض العناصر الغذائية إلى طاقة ويدعم صحة الشعر والبشرة والأظافر.</td><td>يلعب دوراً رئيسياً في النمو الجنيني وصحة الكبد.</td><td>Healthline - Biotin Benefits</td></tr>
+                <tr><td class="no-wrap">اليود</td><td>40mcg</td><td>ضروري لإنتاج هرمونات الغدة الدرقية.</td><td>يدعم معدل الأيض "معدل حرق الطاقة"، والوظيفة الإدراكية والنمو والتطور.</td><td>American Thyroid Association</td></tr>
+                <tr><td class="no-wrap">الكروم</td><td>18mcg</td><td>يعزز عمل الأنسولين ويدخل في تحويل الكربوهيدرات والدهون والبروتينات إلى طاقة.</td><td>يساعد في الحفاظ على مستويات طبيعية للسكر في الدم، مما يجعله مثالياً للتركيبة الخالية من السكر.</td><td>NIH - Chromium Fact Sheet</td></tr>
+                <tr><td class="no-wrap">الكالسيوم</td><td>100mg</td><td>ضروري لبناء والحفاظ على عظام وأسنان قوية.</td><td>ضروري لتقلص العضلات، والإشارات العصبية، وتجلط الدم.</td><td>National Osteoporosis Foundation</td></tr>
+                <tr><td class="no-wrap">الزنك</td><td>2.2mg</td><td>يساعد جهاز المناعة على محاربة البكتيريا والفيروسات الغازية.</td><td>ضروري لشفاء الجروح وحاستي التذوق والشم.</td><td>Johns Hopkins Medicine - Zinc</td></tr>
+            </tbody>
+        </table>
             <div class="section-title" style="border-right-color:#ed64a6">⚠️ التحذيرات وموانع الاستخدام</div>
             <div class="desc-text">• لا تتجاوز الجرعة الموصى بها من 1 إلى 2 "Gummy" في اليوم.<br>• غير موصى به للنساء الحوامل أو المرضعات دون استشارة طبية.<br>• يحفظ بعيداً عن متناول الأطفال.<br>• يحتوي على يود "40mcg" وهي أقل من الحد الأعلى الآمن "1100mcg" لكن يجب الحذر لدى الأشخاص الذين يعانون من أمراض الغدة (Hyperthyroidism, Hypothyroidism, Thyroid Nodules).<br>• لا يحتوي على سكر مضاف.</div>
             <div class="section-title" style="border-right-color:#ed64a6">👶 الفئات العمرية المسموحة</div>
@@ -315,9 +380,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 4. Sleep -->
-    <!-- ============================================================ -->
+    <!-- Sleep -->
     <div id="sleep" class="product-card">
         <div class="product-header" style="background: linear-gradient(135deg,#6b46c1,#9f7aea)">
             <div class="product-title">🧸 GUMMYBEAR Sleep</div>
@@ -325,7 +388,14 @@
         </div>
         <div class="product-content">
             <div class="section-title" style="border-right-color:#9f7aea">📋 معلومات المنتج</div>
-            <table class="info-table"><thead><tr><th>البند</th><th>التفاصيل</th></tr></thead><tbody><tr><td class="no-wrap">اسم المنتج</td><td class="no-wrap">النوم</td></tr><tr><td class="no-wrap">الفئة</td><td class="no-wrap">مكمل غذائي</td></tr><tr><td class="no-wrap">الجرعة</td><td class="no-wrap">من 1 إلى 2 "Gummy" في اليوم</td></tr><tr><td class="no-wrap">طريقة الاستخدام</td><td class="no-wrap">عن طريق الفم</td></tr><tr><td class="no-wrap">حجم العبوة</td><td class="no-wrap">60 "Gummy" في سعة 200 مل.</td></tr></tbody></table>
+            <table class="info-table"><thead><tr><th>البند</th><th>التفاصيل</th></tr></thead><tbody>
+                <tr><td class="no-wrap">اسم المنتج</td><td class="no-wrap">النوم</td></tr>
+                <tr><td class="no-wrap">الفئة</td><td class="no-wrap">مكمل غذائي</td></tr>
+                <tr><td class="no-wrap">الجرعة</td><td class="no-wrap">من 1 إلى 2 "Gummy" في اليوم</td></tr>
+                <tr><td class="no-wrap">طريقة الاستخدام</td><td class="no-wrap">عن طريق الفم</td></tr>
+                <tr><td class="no-wrap">حجم العبوة</td><td class="no-wrap">60 "Gummy" في سعة 200 مل.</td></tr>
+            </tbody>
+        </table>
             <div class="desc-text">هو مكمل غذائي على شكل حلوى هلامية (gummy)، تم تركيبه لتعزيز النوم العميق والمريح. تجمع التركيبة بين الميلاتونين والمستخلصات النباتية المهدئة التي تعمل بشكل تآزري للمساعدة في تنظيم دورة النوم والاستيقاظ، وتقليل الوقت اللازم للنوم، وتحسين جودة النوم بشكل عام. تم اختيار كل مكون بعناية لدوره المحدد في تنظيم النوم، الاسترخاء، ودعم الجهاز العصبي.</div>
             <div class="section-title" style="border-right-color:#9f7aea">🧪 التركيبة النشطة (لكل Gummy – 5 مكونات)</div>
             <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
@@ -334,21 +404,27 @@
                 <tr><td class="no-wrap">زهرة الآلام (Passionflower)</td><td class="no-wrap">15mg</td><td class="no-wrap">تدعم مستويات GABA في الدماغ لتقليل الأرق العصبي.</td><td class="no-wrap">تساعد في تهدئة الأفكار المتسارعة والقلق قبل النوم.</td><td class="no-wrap">Sleep Foundation</td></tr>
                 <tr><td class="no-wrap">بلسم الليمون (Lemon balm / Melissa)</td><td class="no-wrap">15mg</td><td class="no-wrap">معروف بخصائصه المهدئة التي تساعد في تقليل التوتر وتحسين المزاج.</td><td class="no-wrap">يعمل بشكل تآزري مع حشيشة الهر لتعزيز الاسترخاء.</td><td class="no-wrap">Cleveland Clinic</td></tr>
                 <tr><td class="no-wrap">حشيشة الهر (Valerian Root)</td><td class="no-wrap">15mg</td><td class="no-wrap">تستخدم تقليدياً لدعم النوم وتقليل الوقت اللازم للنوم.</td><td class="no-wrap">توفر تأثيراً مهدئاً طبيعياً بدون نعاس كبير في اليوم التالي.</td><td class="no-wrap">National Institutes of Health (NIH)</td></tr>
-            </tbody></table>
+            </tbody>
+        </table>
             <div class="section-title" style="border-right-color:#9f7aea">⚠️ التحذيرات وموانع الاستخدام</div>
             <div class="desc-text">• لا تتجاوز الجرعة الموصى بها من 1 إلى 2 "Gummy" في اليوم.<br>• غير موصى به للنساء الحوامل أو المرضعات دون استشارة طبية.<br>• يحفظ بعيداً عن متناول الأطفال.<br>• لا تتناول هذا المنتج مع مضادات الاكتئاب (خاصة SSRIs, SNRIs, MAOIs) بدون استشارة الطبيب بسبب خطر متلازمة السيروتونين (أعراض: تسارع ضربات القلب، ارتفاع الحرارة، الهياج، التعرق، تصلب العضلات).<br>• لا تقم بقيادة السيارة أو تشغيل الآلات الثقيلة بعد تناول هذا المنتج إذا شعرت بالنعاس.<br>• قد يسبب أحلاماً مزعجة أو كوابيس عند بعض الأشخاص (خاصة الميلاتونين).<br>• لا يستخدم للأشخاص الذين يعانون من أمراض المناعة الذاتية دون استشارة طبية (الميلاتونين قد يحفز الجهاز المناعي).</div>
             <div class="section-title" style="border-right-color:#9f7aea">👶 الفئات العمرية المسموحة</div>
             <table class="age-table"><thead><tr><th>العمر</th><th>الجرعة الموصى بها</th></tr></thead><tbody><tr><td class="no-wrap">أقل من 12 سنة</td><td class="no-wrap">غير موصى به (نقص البيانات عن سلامة الميلاتونين للأطفال دون 12 سنة)</td></tr><tr><td class="no-wrap">أقل من 18 سنة</td><td class="no-wrap">غير موصى به لـ 5-HTP (نقص بيانات السلامة للمراهقين)</td></tr><tr><td class="no-wrap">من 18 سنة فأكثر</td><td class="no-wrap">من 1 إلى 2 "Gummy" في اليوم</td></tr></tbody></table>
             <div class="section-title" style="border-right-color:#9f7aea">💊 التفاعلات الدوائية</div>
-            <table class="interaction-table"><thead><tr><th>الفئة</th><th>الدواء</th><th>نوع التفاعل</th></tr></thead><tbody><tr><td class="no-wrap">مضادات الاكتئاب</td><td class="no-wrap">(SSRIs, SNRIs, MAOIs, TCAs)</td><td class="no-wrap">متلازمة السيروتونين – ممنوع الجمع دون إشراف طبي</td></tr><tr><td class="no-wrap">أدوية الصرع والمضادات النفسية</td><td class="no-wrap">-</td><td class="no-wrap">زيادة التأثير المهدئ</td></tr><tr><td class="no-wrap">أدوية القلق والصرع والمهدئات</td><td class="no-wrap">(benzodiazepines, zolpidem, barbiturates)</td><td class="no-wrap">زيادة خطيرة في النعاس والخمول</td></tr><tr><td class="no-wrap">أدوية الضغط</td><td class="no-wrap">(beta-blockers, calcium channel blockers, ACE inhibitors)</td><td class="no-wrap">تأثير إضافي في خفض الضغط</td></tr><tr><td class="no-wrap">مضادات الهيستامين المهدئة</td><td class="no-wrap">(diphenhydramine, hydroxyzine)</td><td class="no-wrap">زيادة النعاس</td></tr></tbody></table>
+            <table class="interaction-table"><thead><tr><th>الفئة</th><th>الدواء</th><th>نوع التفاعل</th></tr></thead><tbody>
+                <tr><td class="no-wrap">مضادات الاكتئاب</td><td class="no-wrap">(SSRIs, SNRIs, MAOIs, TCAs)</td><td class="no-wrap">متلازمة السيروتونين – ممنوع الجمع دون إشراف طبي</td></tr>
+                <tr><td class="no-wrap">أدوية الصرع والمضادات النفسية</td><td class="no-wrap">-</td><td class="no-wrap">زيادة التأثير المهدئ</td></tr>
+                <tr><td class="no-wrap">أدوية القلق والصرع والمهدئات</td><td class="no-wrap">(benzodiazepines, zolpidem, barbiturates)</td><td class="no-wrap">زيادة خطيرة في النعاس والخمول</td></tr>
+                <tr><td class="no-wrap">أدوية الضغط</td><td class="no-wrap">(beta-blockers, calcium channel blockers, ACE inhibitors)</td><td class="no-wrap">تأثير إضافي في خفض الضغط</td></tr>
+                <tr><td class="no-wrap">مضادات الهيستامين المهدئة</td><td class="no-wrap">(diphenhydramine, hydroxyzine)</td><td class="no-wrap">زيادة النعاس</td></tr>
+            </tbody>
+        </table>
             <div class="section-title" style="border-right-color:#9f7aea">⚠️ الآثار الجانبية المحتملة</div>
             <div class="side-effects-box">في حالات نادرة، قد تحدث: نعاس أو خمول في اليوم التالي (خاصة عند تناول جرعات أعلى من 2 Gummy)، أحلام مزعجة أو كوابيس، دوخة أو صداع خفيف، اضطرابات هضمية بسيطة (غثيان)، جفاف الفم.</div>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 5. Magnesium -->
-    <!-- ============================================================ -->
+    <!-- Magnesium -->
     <div id="magnesium" class="product-card">
         <div class="product-header" style="background: linear-gradient(135deg,#319795,#38b2ac)">
             <div class="product-title">🧸 GUMMYBEAR Magnesium</div>
@@ -356,16 +432,37 @@
         </div>
         <div class="product-content">
             <div class="section-title" style="border-right-color:#38b2ac">📋 معلومات المنتج</div>
-            <table class="info-table"><thead><tr><th>البند</th><th>التفاصيل</th></tr></thead><tbody><tr><td class="no-wrap">اسم المنتج</td><td class="no-wrap">الماغنيسيوم</td></tr><tr><td class="no-wrap">الفئة</td><td class="no-wrap">مكمل غذائي</td></tr><tr><td class="no-wrap">الجرعة</td><td class="no-wrap">2 "Gummy" في اليوم</td></tr><tr><td class="no-wrap">طريقة الاستخدام</td><td class="no-wrap">عن طريق الفم</td></tr><tr><td class="no-wrap">حجم العبوة</td><td class="no-wrap">60 "Gummy" في سعة 200 مل.</td></tr></tbody></table>
+            <table class="info-table"><thead><tr><th>البند</th><th>التفاصيل</th></tr></thead><tbody>
+                <tr><td class="no-wrap">اسم المنتج</td><td class="no-wrap">الماغنيسيوم</td></tr>
+                <tr><td class="no-wrap">الفئة</td><td class="no-wrap">مكمل غذائي</td></tr>
+                <tr><td class="no-wrap">الجرعة</td><td class="no-wrap">2 "Gummy" في اليوم</td></tr>
+                <tr><td class="no-wrap">طريقة الاستخدام</td><td class="no-wrap">عن طريق الفم</td></tr>
+                <tr><td class="no-wrap">حجم العبوة</td><td class="no-wrap">60 "Gummy" في سعة 200 مل.</td></tr>
+            </tbody>
+        </table>
             <div class="desc-text">هو مكمل غذائي على شكل حلوى هلامية (gummy)، تم تركيبه لدعم استرخاء العضلات، وظيفة الأعصاب، وتقليل التعب. تجمع التركيبة بين سترات المغنيسيوم وفيتامينات B6 و B12 و D3، التي تعمل بشكل تآزري لتعزيز امتصاص المغنيسيوم والاستفادة منه. تم اختيار كل مكون بعناية لدوره المحدد في إنتاج الطاقة، دعم الجهاز العصبي، ووظيفة العضلات.</div>
             <div class="section-title" style="border-right-color:#38b2ac">🧪 التركيبة النشطة (لكل Gummy – 4 مكونات)</div>
-            <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم (Magnesium Citrate)</td><td class="no-wrap">100mg</td><td class="no-wrap">يدعم استرخاء العضلات، وظيفة الأعصاب، ويساعد في تقليل التعب والإرهاق.</td><td class="no-wrap">تم تركيبه بجرعة عنصرية للتوفير الحيوي الأمثل، ويدعم أكثر من 300 تفاعل كيميائي في الجسم.</td><td class="no-wrap">National Institutes of Health (NIH) - Magnesium Fact Sheet</td></tr><tr><td class="no-wrap">فيتامين B6</td><td class="no-wrap">1mg</td><td class="no-wrap">يعمل كعامل مساعد لتعزيز امتصاص المغنيسيوم والاستفادة منه داخل الخلايا.</td><td class="no-wrap">يدعم الجهاز العصبي وصحة المناعة، مما يساهم في الصحة العقلية.</td><td class="no-wrap">Mayo Clinic - Vitamin B6</td></tr><tr><td class="no-wrap">فيتامين B12</td><td class="no-wrap">1.3mcg</td><td class="no-wrap">ضروري لإنتاج الطاقة وتكوين خلايا الدم الحمراء الصحية.</td><td class="no-wrap">يساعد في منع التعب ويدعم صحة الأعصاب على المدى الطويل.</td><td class="no-wrap">National Institutes of Health (NIH) - Vitamin B12</td></tr><tr><td class="no-wrap">فيتامين D3</td><td class="no-wrap">2mcg (80 IU)</td><td class="no-wrap">ضروري لامتصاص الكالسيوم والحفاظ على عظام وأسنان قوية.</td><td class="no-wrap">يعزز مرونة الجهاز المناعي ويدعم كثافة العظام بشكل عام.</td><td class="no-wrap">Harvard T.H. Chan - Vitamin D</td></tr></tbody></table>
+            <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
+                <tr><td class="no-wrap">سترات المغنيسيوم (Magnesium Citrate)</td><td class="no-wrap">100mg</td><td class="no-wrap">يدعم استرخاء العضلات، وظيفة الأعصاب، ويساعد في تقليل التعب والإرهاق.</td><td class="no-wrap">تم تركيبه بجرعة عنصرية للتوفير الحيوي الأمثل، ويدعم أكثر من 300 تفاعل كيميائي في الجسم.</td><td class="no-wrap">National Institutes of Health (NIH) - Magnesium Fact Sheet</td></tr>
+                <tr><td class="no-wrap">فيتامين B6</td><td class="no-wrap">1mg</td><td class="no-wrap">يعمل كعامل مساعد لتعزيز امتصاص المغنيسيوم والاستفادة منه داخل الخلايا.</td><td class="no-wrap">يدعم الجهاز العصبي وصحة المناعة، مما يساهم في الصحة العقلية.</td><td class="no-wrap">Mayo Clinic - Vitamin B6</td></tr>
+                <tr><td class="no-wrap">فيتامين B12</td><td class="no-wrap">1.3mcg</td><td class="no-wrap">ضروري لإنتاج الطاقة وتكوين خلايا الدم الحمراء الصحية.</td><td class="no-wrap">يساعد في منع التعب ويدعم صحة الأعصاب على المدى الطويل.</td><td class="no-wrap">National Institutes of Health (NIH) - Vitamin B12</td></tr>
+                <tr><td class="no-wrap">فيتامين D3</td><td class="no-wrap">2mcg (80 IU)</td><td class="no-wrap">ضروري لامتصاص الكالسيوم والحفاظ على عظام وأسنان قوية.</td><td class="no-wrap">يعزز مرونة الجهاز المناعي ويدعم كثافة العظام بشكل عام.</td><td class="no-wrap">Harvard T.H. Chan - Vitamin D</td></tr>
+            </tbody>
+        </table>
             <div class="section-title" style="border-right-color:#38b2ac">⚠️ التحذيرات وموانع الاستخدام</div>
             <div class="desc-text">• لا تتجاوز الجرعة الموصى بها 2 "Gummy" في اليوم.<br>• غير موصى به للنساء الحوامل أو المرضعات دون استشارة طبية.<br>• يحفظ بعيداً عن متناول الأطفال.<br>• موانع استخدام خطيرة: لا يستخدم للأشخاص الذين يعانون من الفشل الكلوي أو القصور الكلوي الحاد دون استشارة الطبيب (ارتفاع مستوى الماغنيسيوم في الدم قد يكون خطراً).<br>• ينصح بإخبار الطبيب إذا كنت تعاني من أمراض القلب، أو تتناول أدوية مدرة للبول، أو أدوية للقلب.</div>
             <div class="section-title" style="border-right-color:#38b2ac">👶 الفئات العمرية المسموحة</div>
             <table class="age-table"><thead><tr><th>العمر</th><th>الجرعة الموصى بها</th></tr></thead><tbody><tr><td class="no-wrap">من 6 إلى 13 سنة</td><td class="no-wrap">1 "Gummy" في اليوم</td></tr><tr><td class="no-wrap">من 14 سنة فأكثر</td><td class="no-wrap">2 "Gummy" في اليوم</td></tr></tbody></table>
             <div class="section-title" style="border-right-color:#38b2ac">💊 التفاعلات الدوائية</div>
-            <table class="interaction-table"><thead><tr><th>الفئة</th><th>الدواء</th><th>نوع التفاعل</th></tr></thead><tbody><tr><td class="no-wrap">المضادات الحيوية</td><td class="no-wrap">(tetracyclines, fluoroquinolones)</td><td class="no-wrap">يقلل امتصاص المضاد الحيوي، ينصح بفارق 2-3 ساعات</td></tr><tr><td class="no-wrap">مدرات البول</td><td class="no-wrap">(furosemide, thiazides)</td><td class="no-wrap">قد يسبب ارتفاع أو انخفاض في مستوى المغنيسيوم (مراقبة مطلوبة)</td></tr><tr><td class="no-wrap">أدوية هشاشة العظام</td><td class="no-wrap">(bisphosphonates)</td><td class="no-wrap">يقلل امتصاصها، ينصح بفارق ساعتين</td></tr><tr><td class="no-wrap">أدوية القلب</td><td class="no-wrap">(digoxin)</td><td class="no-wrap">المغنيسيوم قد يعزز تأثيرها ويسبب تباطؤ ضربات القلب</td></tr><tr><td class="no-wrap">مثبطات مضخة البروتون</td><td class="no-wrap">(omeprazole, esomeprazole)</td><td class="no-wrap">الاستخدام طويل الأمد قد يخفض مستوى الماغنيسيوم</td></tr><tr><td class="no-wrap">الكالسيوم وفيتامين D (بجرعات عالية)</td><td class="no-wrap">-</td><td class="no-wrap">قد يتنافس على الامتصاص، ينصح بتناولهما في أوقات مختلفة إذا كانت الجرعات عالية</td></tr></tbody></table>
+            <table class="interaction-table"><thead><tr><th>الفئة</th><th>الدواء</th><th>نوع التفاعل</th></tr></thead><tbody>
+                <tr><td class="no-wrap">المضادات الحيوية</td><td class="no-wrap">(tetracyclines, fluoroquinolones)</td><td class="no-wrap">يقلل امتصاص المضاد الحيوي، ينصح بفارق 2-3 ساعات</td></tr>
+                <tr><td class="no-wrap">مدرات البول</td><td class="no-wrap">(furosemide, thiazides)</td><td class="no-wrap">قد يسبب ارتفاع أو انخفاض في مستوى المغنيسيوم (مراقبة مطلوبة)</td></tr>
+                <tr><td class="no-wrap">أدوية هشاشة العظام</td><td class="no-wrap">(bisphosphonates)</td><td class="no-wrap">يقلل امتصاصها، ينصح بفارق ساعتين</td></tr>
+                <tr><td class="no-wrap">أدوية القلب</td><td class="no-wrap">(digoxin)</td><td class="no-wrap">المغنيسيوم قد يعزز تأثيرها ويسبب تباطؤ ضربات القلب</td></tr>
+                <tr><td class="no-wrap">مثبطات مضخة البروتون</td><td class="no-wrap">(omeprazole, esomeprazole)</td><td class="no-wrap">الاستخدام طويل الأمد قد يخفض مستوى الماغنيسيوم</td></tr>
+                <tr><td class="no-wrap">الكالسيوم وفيتامين D (بجرعات عالية)</td><td class="no-wrap">-</td><td class="no-wrap">قد يتنافس على الامتصاص، ينصح بتناولهما في أوقات مختلفة إذا كانت الجرعات عالية</td></tr>
+            </tbody>
+        </table>
             <div class="section-title" style="border-right-color:#38b2ac">⚠️ الآثار الجانبية المحتملة</div>
             <div class="side-effects-box">في حالات نادرة، قد تحدث: اضطرابات هضمية خفيفة (إسهال – هو الأكثر شيوعاً)، انتفاخ أو غازات، غثيان خفيف. معظم هذه الآثار خفيفة ومؤقتة، وتزول بتقليل الجرعة أو التوقف عن الاستخدام.</div>
         </div>
@@ -389,5 +486,21 @@
         </p>
     </div>
 </div>
+
+<button id="scrollTopBtn" class="scroll-top-btn">↑ عودة للأعلى</button>
+
+<script>
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollBtn.classList.add('show');
+        } else {
+            scrollBtn.classList.remove('show');
+        }
+    });
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+</script>
 </body>
 </html>
