@@ -81,7 +81,6 @@
             margin-bottom: 24px;
         }
 
-        /* ===== زر المرجع العلمي المحسن ===== */
         .sci-ref-btn {
             background: #2b6cb0;
             color: white;
@@ -99,9 +98,7 @@
             background: #1e4a76;
             transform: translateY(-2px);
         }
-        .sci-ref-text {
-            font-size: 0.9rem;
-        }
+        .sci-ref-text { font-size: 0.9rem; }
         .sci-ref-click {
             background: rgba(255, 215, 0, 0.2);
             padding: 4px 12px;
@@ -142,10 +139,7 @@
             backdrop-filter: blur(2px);
             transition: 0.2s;
         }
-        .details-badge:hover {
-            background: rgba(255, 215, 0, 0.3);
-            color: #fde047;
-        }
+        .details-badge:hover { background: rgba(255, 215, 0, 0.3); color: #fde047; }
         .product-desc { font-size: 0.7rem; margin-top: 6px; opacity: 0.9; line-height: 1.5; }
         .card-body { padding: 16px; }
         .tagline-ltr {
@@ -240,34 +234,54 @@
         .popup-content ul { list-style: none; padding: 0; font-size: 0.75rem; }
         .popup-content li { margin-bottom: 6px; }
 
-        .stand-offer-checkbox {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 12px;
-            margin-bottom: 0;
+        /* ===== تحسين نافذة الطلبية ===== */
+        .form-field {
+            padding: 12px 0;
             border-bottom: 1px solid var(--border-color);
+        }
+        .form-field label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
             color: var(--modal-text);
         }
-        .stand-offer-checkbox label { font-weight: normal; font-size: 0.9rem; }
-        .stand-offer-checkbox input {
-            width: 75px;
-            padding: 8px 6px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e0;
-            text-align: center;
-            font-size: 1rem;
+        .form-field input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
             background: var(--card-bg);
             color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
         }
-        input[type=number] {
-            -moz-appearance: textfield;
-            appearance: textfield;
+        .form-field input:focus {
+            outline: none;
+            border-color: #2b6cb0;
         }
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        /* عرض الستاند - تصميم بنفس حجم الحقول الأخرى */
+        .stand-field {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .stand-field label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            color: var(--modal-text);
+        }
+        .stand-field input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            text-align: center;
         }
         .order-row {
             display: flex;
@@ -277,10 +291,10 @@
             border-bottom: 1px solid var(--border-color);
         }
         .order-info { text-align: right; flex: 2; }
-        .product-name-order { font-weight: normal; font-size: 0.9rem; color: var(--modal-text); }
+        .product-name-order { font-weight: normal; font-size: 0.85rem; color: var(--modal-text); }
         .price-detail { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
         .order-row input {
-            width: 75px;
+            width: 80px;
             padding: 8px 6px;
             border-radius: 8px;
             border: 1px solid #cbd5e0;
@@ -294,8 +308,19 @@
             border-top: 2px solid var(--border-color);
             display: flex;
             justify-content: space-between;
+            align-items: baseline;
             font-weight: 800;
             color: var(--modal-text);
+        }
+        #orderTotal {
+            font-size: 1.1rem;
+            margin-left: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
         }
         .whatsapp-order {
             display: block;
@@ -304,11 +329,28 @@
             text-align: center;
             padding: 12px;
             border-radius: 40px;
-            margin-top: 20px;
             text-decoration: none;
             font-weight: 700;
         }
         .whatsapp-order.disabled {
+            background: #a0aec0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .pdf-order {
+            display: block;
+            background: #2b6cb0;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+        }
+        .pdf-order.disabled {
             background: #a0aec0;
             pointer-events: none;
             opacity: 0.6;
@@ -325,8 +367,6 @@
         @media (max-width: 600px) {
             .order-row { flex-direction: column; align-items: flex-start; gap: 8px; }
             .order-row input { width: 100%; }
-            .stand-offer-checkbox { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .stand-offer-checkbox input { width: 100%; }
             .sci-ref-btn { flex-direction: column; gap: 6px; padding: 10px 20px; }
         }
         @media print {
@@ -391,18 +431,39 @@
     <div class="popup-modal">
         <div class="popup-header"><h2>📋 إنشاء طلبية</h2><button class="close-btn" id="closeOrderPopup">✕</button></div>
         <div class="popup-content">
-            <div class="stand-offer-checkbox">
-                <label>عرض الستاند المجاني (25 قطعة - 5 من كل نوع)</label>
+            <!-- حقل اسم الصيدلية -->
+            <div class="form-field">
+                <label>🏪 اسم الصيدلية</label>
+                <input type="text" id="pharmacyName" placeholder="اسم الصيدلية" value="صيدلية ابن البيطار">
+            </div>
+            <!-- حقل عنوان الصيدلية -->
+            <div class="form-field">
+                <label>📍 عنوان الصيدلية</label>
+                <input type="text" id="pharmacyAddress" placeholder="حي الأندلس، طرابلس" value="حي الأندلس، طرابلس">
+            </div>
+            <!-- حقل رقم الفاتورة -->
+            <div class="form-field">
+                <label>🔢 رقم الفاتورة (اختياري)</label>
+                <input type="text" id="invoiceNumber" placeholder="يُترك تلقائياً إن لم تحدده" value="">
+            </div>
+
+            <!-- عرض الستاند - الآن بنفس حجم الحقول -->
+            <div class="stand-field">
+                <label>🎁 عرض الستاند المجاني (25 قطعة - 5 من كل نوع)</label>
                 <input type="number" id="standQty" min="0" value="" step="1" placeholder="0">
             </div>
 
             <div id="orderFields"></div>
 
             <div class="total-row">
-                <span>إجمالي الطلبية</span>
-                <span id="orderTotal">0</span> دينار
+                <span>💰 إجمالي الطلبية</span>
+                <span><span id="orderTotal">0</span> دينار</span>
             </div>
-            <a href="#" id="whatsappOrderLink" class="whatsapp-order disabled" target="_blank">📱 إرسال الطلب عبر واتساب</a>
+            
+            <div class="action-buttons">
+                <a href="#" id="whatsappOrderLink" class="whatsapp-order disabled" target="_blank">📱 إرسال الطلب عبر واتساب</a>
+                <button id="pdfOrderBtn" class="pdf-order disabled">🧾 إصدار فاتورة رسمية (PDF)</button>
+            </div>
         </div>
     </div>
 </div>
@@ -411,27 +472,27 @@
     const PRODUCTS = [
         { id: "hsn", name: "Hair, Skin & Nails", displayName: "👑 Hair, Skin & Nails", color: "#dd6b20", colorGrad: "linear-gradient(135deg,#dd6b20,#ed8936)", tagline: "High Potency Therapeutic Formula", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "07/2027", 
           desc: `🌿 Rich in Biotin 5000mcg + Natural Folate + 10 ingredients`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">البيوتين<\/td><td>5000 µg<\/td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر<\/td><\/tr><tr><td class="no-wrap">فيتامين أ<\/td><td>450 µg<\/td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة قوي<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>3 mg<\/td><td>يساعد في منع تساقط الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>4 µg<\/td><td>يدعم دورة نمو بصيلات الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين C<\/td><td>20 mg<\/td><td>ضروري لإنتاج الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين B12<\/td><td>8 µg<\/td><td>يدعم تكوين خلايا الدم<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>2 mg<\/td><td>يدعم إنتاج البروتين<\/td><\/tr><tr><td class="no-wrap">فيتامين B5<\/td><td>10 mg<\/td><td>يدعم توازن الرطوبة<\/td><\/tr><tr><td class="no-wrap">فيتامين B3<\/td><td>8 mg<\/td><td>يدعم إنتاج الطاقة<\/td><\/tr><tr><td class="no-wrap">فيتامين B2<\/td><td>400 µg<\/td><td>يدعم الطاقة الخلوية<\/td><\/tr><tr><td class="no-wrap">الفولات (طبيعي)<\/td><td>100 µg<\/td><td>يدعم انقسام الخلايا<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.<\/div>`,
+          composition: `<table class="sci-table"><thead></tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">البيوتين<\/td><td>5000 µg<\/td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر<\/td><\/tr><tr><td class="no-wrap">فيتامين أ<\/td><td>450 µg<\/td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة قوي<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>3 mg<\/td><td>يساعد في منع تساقط الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>4 µg<\/td><td>يدعم دورة نمو بصيلات الشعر<\/td><\/tr></tr><td class="no-wrap">فيتامين C<\/td><td>20 mg<\/td><td>ضروري لإنتاج الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين B12<\/td><td>8 µg<\/td><td>يدعم تكوين خلايا الدم<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>2 mg<\/td><td>يدعم إنتاج البروتين<\/td><\/tr><tr><td class="no-wrap">فيتامين B5<\/td><td>10 mg<\/td><td>يدعم توازن الرطوبة<\/td><\/tr><tr><td class="no-wrap">فيتامين B3<\/td><td>8 mg<\/td><td>يدعم إنتاج الطاقة<\/td><\/tr></tr><td class="no-wrap">فيتامين B2<\/td><td>400 µg<\/td><td>يدعم الطاقة الخلوية<\/td><\/tr><tr><td class="no-wrap">الفولات (طبيعي)<\/td><td>100 µg<\/td><td>يدعم انقسام الخلايا<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.<\/div>`,
           warnings: `<ul><li>⚠️ البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية.</li><li>⚠️ يتفاعل مع أدوية الصرع.</li><li>⚠️ غير موصى به للحوامل دون استشارة طبية.</li><li>⚠️ الجرعة اليومية: 1-2 Gummy حسب العمر.</li></ul>`
         },
         { id: "nostress", name: "No Stress", displayName: "🌿 No Stress", color: "#2f855a", colorGrad: "linear-gradient(135deg,#2f855a,#48bb78)", tagline: "Calm without Drowsiness", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "12/2027", 
           desc: `🌿 Ashwagandha KSM-66 300mg<br>✨ KSM-66 is a premium branded ingredient`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">أشواغاندا KSM-66<\/td><td>300 mg<\/td><td>يخفض الكورتيزول، يقلل القلق<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>10 mg<\/td><td>تدعم GABA لتعزيز الاسترخاء دون نعاس<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>10 mg<\/td><td>يحسن المزاج، يقلل الأرق والتهيج<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">أشواغاندا KSM-66<\/td><td>300 mg<\/td><td>يخفض الكورتيزول، يقلل القلق<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>10 mg<\/td><td>تدعم GABA لتعزيز الاسترخاء دون نعاس<\/td><\/tr></tr><td class="no-wrap">بلسم الليمون<\/td><td>10 mg<\/td><td>يحسن المزاج، يقلل الأرق والتهيج<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).<\/div>`,
           warnings: `<ul><li>⚠️ قد يسبب النعاس – لا يقود السيارة بعد تناوله.</li><li>⚠️ يتفاعل مع مضادات الاكتئاب وأدوية الضغط.</li><li>⚠️ لا يستخدم لقرحة المعدة أو أمراض المناعة الذاتية دون استشارة.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li></ul>`
         },
         { id: "multi", name: "Multivitamin - Sugar-Free", displayName: "🥇 Multivitamin - Sugar-Free", color: "#d53f8c", colorGrad: "linear-gradient(135deg,#d53f8c,#ed64a6)", tagline: "Smart Nutrition, Zero Sugar", retail: 115, pharmacy: 91, bulk: 82, profitSingle: 24, profitBulk: 600, expiry: "11/2027", 
           desc: `🌿 16 essential vitamins & minerals.<br>✨ Safe for diabetics & Keto-friendly`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">فيتامين C<\/td><td>30 mg<\/td><td>يدعم المناعة وتخليق الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>10 µg<\/td><td>يدعم العظام والمناعة<\/td><\/tr><tr><td class="no-wrap">فيتامينات B<\/td><td>متنوعة<\/td><td>تدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">الفولات الطبيعي<\/td><td>400 µg<\/td><td>لوظيفة الدماغ وتخليق DNA<\/td><\/tr><tr><td class="no-wrap">البيوتين<\/td><td>150 µg<\/td><td>يدعم الشعر والبشرة<\/td><\/tr><tr><td class="no-wrap">اليود<\/td><td>40 µg<\/td><td>يدعم الغدة الدرقية<\/td><\/tr><tr><td class="no-wrap">الكروم<\/td><td>18 µg<\/td><td>يدعم توازن السكر<\/td><\/tr><tr><td class="no-wrap">الكالسيوم<\/td><td>100 mg<\/td><td>يدعم العظام والأسنان<\/td><\/tr></tr><td class="no-wrap">الزنك<\/td><td>2.2 mg<\/td><td>يدعم المناعة<\/td><\/tr><\/tbody><\/table><div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">فيتامين C<\/td><td>30 mg<\/td><td>يدعم المناعة وتخليق الكولاجين<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>10 µg<\/td><td>يدعم العظام والمناعة<\/td><\/tr><tr><td class="no-wrap">فيتامينات B<\/td><td>متنوعة<\/td><td>تدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">الفولات الطبيعي<\/td><td>400 µg<\/td><td>لوظيفة الدماغ وتخليق DNA<\/td><\/tr><tr><td class="no-wrap">البيوتين<\/td><td>150 µg<\/td><td>يدعم الشعر والبشرة<\/td><\/tr><tr><td class="no-wrap">اليود<\/td><td>40 µg<\/td><td>يدعم الغدة الدرقية<\/td><\/tr><tr><td class="no-wrap">الكروم<\/td><td>18 µg<\/td><td>يدعم توازن السكر<\/td><\/tr><tr><td class="no-wrap">الكالسيوم<\/td><td>100 mg<\/td><td>يدعم العظام والأسنان<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>2.2 mg<\/td><td>يدعم المناعة<\/td><\/tr><\/tbody><\/table><div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.<\/div>`,
           warnings: `<ul><li>⚠️ يحتوي على يود – الحذر مع أمراض الغدة الدرقية.</li><li>⚠️ الكالسيوم قد يتداخل مع المضادات الحيوية.</li><li>⚠️ الكروم يعزز تأثير أدوية السكري (مراقبة مطلوبة).</li><li>⚠️ ينصح النساء الحوامل باستشارة الطبيب قبل الاستخدام.</li></ul>`
         },
         { id: "sleep", name: "Sleep", displayName: "🌙 Sleep", color: "#6b46c1", colorGrad: "linear-gradient(135deg,#6b46c1,#9f7aea)", tagline: "Restful Nights, Refreshing Mornings", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "02/2027", 
           desc: `🌿 Advanced formula with Melatonin + 5-HTP + 4 Herbs<br>✨ Natural solution for better sleep quality`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">ميلاتونين<\/td><td>1 mg<\/td><td>ينظم دورة النوم والاستيقاظ<\/td><\/tr><tr><td class="no-wrap">5-HTP<\/td><td>50 mg<\/td><td>مقدمة السيروتونين<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>15 mg<\/td><td>تدعم GABA<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>15 mg<\/td><td>يقلل التوتر ويحسن المزاج<\/td><\/tr><tr><td class="no-wrap">حشيشة الهر<\/td><td>15 mg<\/td><td>تقليل الوقت اللازم للنوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">ميلاتونين<\/td><td>1 mg<\/td><td>ينظم دورة النوم والاستيقاظ<\/td><\/tr></tr><td class="no-wrap">5-HTP<\/td><td>50 mg<\/td><td>مقدمة السيروتونين<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>15 mg<\/td><td>تدعم GABA<\/td><\/tr></tr><td class="no-wrap">بلسم الليمون<\/td><td>15 mg<\/td><td>يقلل التوتر ويحسن المزاج<\/td><\/tr><tr><td class="no-wrap">حشيشة الهر<\/td><td>15 mg<\/td><td>تقليل الوقت اللازم للنوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).<\/div>`,
           warnings: `<ul><li>⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين).</li><li>⚠️ قد يسبب النعاس.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ قد يسبب أحلاما مزعجة.</li></ul>`
         },
         { id: "magnesium", name: "Magnesium", displayName: "💪 Magnesium", color: "#319795", colorGrad: "linear-gradient(135deg,#319795,#38b2ac)", tagline: "Essential Muscle & Nerve Support", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "11/2027", 
           desc: `🌿 Magnesium Citrate with B6+B12+D3<br>✨ For maximum absorption & energy recovery`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم<\/td><td>100 mg<\/td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>1 mg<\/td><td>معزز امتصاص المغنيسيوم<\/td><\/tr><tr><td class="no-wrap">فيتامين B12<\/td><td>1.3 µg<\/td><td>يدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>2 µg<\/td><td>يعزز امتصاص الكالسيوم والمغنيسيوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.<\/div>`,
+          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th><tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم<\/td><td>100 mg<\/td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>1 mg<\/td><td>معزز امتصاص المغنيسيوم<\/td><\/tr><tr><td class="no-wrap">فيتامين B12<\/td><td>1.3 µg<\/td><td>يدعم الطاقة والجهاز العصبي<\/td><\/tr></tr><td class="no-wrap">فيتامين D3<\/td><td>2 µg<\/td><td>يعزز امتصاص الكالسيوم والمغنيسيوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.<\/div>`,
           warnings: `<ul><li>⚠️ موانع استخدام: الفشل الكلوي الحاد دون استشارة الطبيب.</li><li>⚠️ قد يتفاعل مع المضادات الحيوية – فارق 2-3 ساعات.</li><li>⚠️ الجرعة اليومية: حبتان للبالغين.</li></ul>`
         }
     ];
@@ -451,14 +512,14 @@
                     <table class="pricing-table">
                         <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th></tr></thead>
                         <tbody>
-                            <tr><td class="no-wrap">💰 سعر المستهلك</td><td class="price-main">${p.retail}.00</td><td class="note-text">-</td></tr>
-                            <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)</td><td class="offer-price">${p.pharmacy}.00</td><td class="note-text">هامش ربح ${p.profitSingle}</td></tr>
-                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)</td><td class="bulk-price">${p.bulk}.00</td><td class="note-text">هامش ربح ${p.profitBulk}</td></tr>
-                            <tr><td class="no-wrap">📅 تاريخ الصلاحية</td><td colspan="2" class="expiry">${p.expiry}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                            <tr><td class="no-wrap">💰 سعر المستهلك<\/td><td class="price-main">${p.retail}.00<\/td><td class="note-text">-<\/td><\/tr>
+                            <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)<\/td><td class="offer-price">${p.pharmacy}.00<\/td><td class="note-text">هامش ربح ${p.profitSingle}<\/td><\/tr>
+                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)<\/td><td class="bulk-price">${p.bulk}.00<\/td><td class="note-text">هامش ربح ${p.profitBulk}<\/td><\/tr>
+                            <tr><td class="no-wrap">📅 تاريخ الصلاحية<\/td><td colspan="2" class="expiry">${p.expiry}<\/td><\/tr>
+                        <\/tbody>
+                    <\/table>
+                <\/div>
+            <\/div>
         `).join('');
         document.querySelectorAll('.card-header').forEach(header => {
             header.addEventListener('click', () => openProductPopup(PRODUCTS.find(p => p.id === header.dataset.id)));
@@ -471,6 +532,8 @@
     const tabWarn = document.getElementById('tabWarn');
     const tabBtns = document.querySelectorAll('#productPopup .tab-btn');
     
+    let invoiceCounter = 1; // عداد تلقائي للفواتير يبدأ من 1
+
     function openProductPopup(product) {
         popupTitle.innerHTML = product.displayName;
         tabComp.innerHTML = product.composition;
@@ -492,12 +555,403 @@
     const orderPopup = document.getElementById('orderPopup');
     const orderFields = document.getElementById('orderFields');
     const standQtyInput = document.getElementById('standQty');
+    const pharmacyNameInput = document.getElementById('pharmacyName');
+    const pharmacyAddressInput = document.getElementById('pharmacyAddress');
+    const invoiceNumberInput = document.getElementById('invoiceNumber');
     const orderTotalSpan = document.getElementById('orderTotal');
     const whatsappOrderLink = document.getElementById('whatsappOrderLink');
+    const pdfOrderBtn = document.getElementById('pdfOrderBtn');
     const WHATSAPP_NUMBER = "218915120573";
 
     function getProductPrice(qty, product) { return qty >= 25 ? qty * product.bulk : qty * product.pharmacy; }
     function getValueFromInput(id) { const val = parseInt(document.getElementById(id).value); return isNaN(val) ? 0 : val; }
+
+    function getCurrentQuantities() {
+        const quantities = [];
+        for (let i = 0; i < PRODUCTS.length; i++) {
+            quantities.push(getValueFromInput(`order-${PRODUCTS[i].id}`));
+        }
+        return quantities;
+    }
+
+    function getTotal() {
+        const standQty = getValueFromInput('standQty');
+        let total = 0;
+        if (standQty > 0) total += standQty * 2070;
+        PRODUCTS.forEach((p, idx) => {
+            const qty = getValueFromInput(`order-${p.id}`);
+            if (qty > 0) total += getProductPrice(qty, p);
+        });
+        return total;
+    }
+
+    function updateOrderTotalAndWhatsApp() {
+        const standQty = getValueFromInput('standQty');
+        let total = 0;
+        let hasItems = false;
+        let message = 'مرحباً، أود طلب:\n\n';
+
+        if (standQty > 0) {
+            hasItems = true;
+            total += standQty * 2070;
+            message += `> ${standQty} × عرض الستاند (باقة 25 قطعة) = ${standQty * 2070} دينار\n`;
+        }
+
+        PRODUCTS.forEach(p => {
+            const qty = getValueFromInput(`order-${p.id}`);
+            if (qty > 0) {
+                hasItems = true;
+                const subtotal = getProductPrice(qty, p);
+                total += subtotal;
+                message += `> ${qty} × ${p.name} = ${subtotal} دينار\n`;
+            }
+        });
+
+        orderTotalSpan.innerText = total;
+        message += `\n> الإجمالي: ${total} دينار`;
+
+        if (hasItems && total > 0) {
+            whatsappOrderLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            whatsappOrderLink.classList.remove('disabled');
+            pdfOrderBtn.classList.remove('disabled');
+        } else {
+            whatsappOrderLink.classList.add('disabled');
+            whatsappOrderLink.removeAttribute('href');
+            pdfOrderBtn.classList.add('disabled');
+        }
+    }
+
+    function getNextInvoiceNumber() {
+        // توليد رقم فاتورة تلقائي: 26 متبوعاً برقم تسلسلي مكون من 4 أرقام (260001، 260002، ...)
+        const sequential = String(invoiceCounter).padStart(4, '0');
+        invoiceCounter++;
+        return `26${sequential}`;
+    }
+
+    function generatePDFInvoice() {
+        const total = getTotal();
+        if (total <= 0) return;
+        
+        const pharmacyName = pharmacyNameInput.value || "صيدلية غير مسماة";
+        const pharmacyAddress = pharmacyAddressInput.value || "حي الأندلس، طرابلس";
+        let invoiceNumber = invoiceNumberInput.value.trim();
+        if (invoiceNumber === "") {
+            invoiceNumber = getNextInvoiceNumber();
+        } else {
+            // إذا أدخل المستخدم رقماً مخصصاً، نضيفه كما هو
+            invoiceNumber = `INV-${invoiceNumber}`;
+        }
+        const invoiceDate = new Date().toISOString().slice(0,10);
+        const quantities = getCurrentQuantities();
+        const standQty = getValueFromInput('standQty');
+        
+        let productsHTML = '';
+        for (let i = 0; i < PRODUCTS.length; i++) {
+            const qty = quantities[i];
+            if (qty > 0) {
+                const product = PRODUCTS[i];
+                const useOffer = qty >= 25;
+                const unitPrice = useOffer ? product.bulk : product.pharmacy;
+                const itemTotal = qty * unitPrice;
+                productsHTML += `
+                    <tr>
+                        <td class="no-wrap"><span class="product-name"><span class="icon">${product.displayName.charAt(0)}</span> ${product.name}</span></td>
+                        <td>${product.pharmacy}.00</td>
+                        <td>${product.bulk}.00</td>
+                        <td>${qty}</td>
+                        <td>${itemTotal.toFixed(2)}</td>
+                    </tr>
+                `;
+            }
+        }
+        
+        if (standQty > 0) {
+            productsHTML += `
+                <tr class="stand-row">
+                    <td colspan="4" style="text-align:left;"><strong>🎁 عرض الستاند (25 قطعة من كل نوع)</strong></td>
+                    <td><strong>${standQty * 2070}.00</strong></td>
+                </tr>
+            `;
+        }
+        
+        const allFiveOrMore = quantities.every(q => q >= 5);
+        const totalPieces = quantities.reduce((a,b) => a + b, 0);
+        const standIncluded = allFiveOrMore && totalPieces >= 25;
+        const standMessage = standIncluded ? 
+            '• 5 قطع من كل منتج (إجمالي 25 قطعة)<br>• ستاند عرض مجاني (قيمته 90 دينار)' : 
+            '• الستاند غير مشمول (يلزم طلب 5 قطع من كل منتج على الأقل)';
+        
+        const invoiceHTML = `<!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+            <meta charset="UTF-8">
+            <title>GummyBear - فاتورة</title>
+            <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body {
+                    font-family: 'Cairo', sans-serif;
+                    background: #e2e8f0;
+                    padding: 20px;
+                    direction: rtl;
+                }
+                .invoice-container {
+                    max-width: 1000px;
+                    margin: 0 auto;
+                    background: white;
+                    border-radius: 20px;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                    overflow: hidden;
+                }
+                .invoice-header {
+                    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+                    color: white;
+                    padding: 8px 20px;
+                    text-align: center;
+                }
+                .invoice-header h1 {
+                    font-family: 'Cambria', serif;
+                    font-size: 1.2rem;
+                    letter-spacing: 1px;
+                }
+                .company-sub {
+                    font-size: 0.6rem;
+                    opacity: 0.9;
+                    margin-top: 2px;
+                }
+                .invoice-info {
+                    background: #f7fafc;
+                    padding: 10px 20px;
+                    border-bottom: 1px solid #e2e8f0;
+                }
+                .info-row {
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    margin-bottom: 6px;
+                }
+                .info-row:last-child { margin-bottom: 0; }
+                .info-box { font-size: 0.75rem; }
+                .info-box strong { color: #2b6cb0; }
+                .invoice-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .invoice-table th {
+                    background: #edf2f7;
+                    padding: 6px 6px;
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    color: #2d3748;
+                    text-align: center;
+                    border-bottom: 2px solid #cbd5e0;
+                }
+                .invoice-table td {
+                    padding: 8px 6px;
+                    text-align: center;
+                    font-size: 0.78rem;
+                    border-bottom: 1px solid #e2e8f0;
+                    color: #2d3748;
+                }
+                .invoice-table td:first-child,
+                .invoice-table th:first-child {
+                    text-align: left;
+                }
+                .product-name {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    direction: ltr;
+                    unicode-bidi: embed;
+                }
+                .product-name .icon { order: -1; }
+                .total-row td {
+                    background: #ebf8ff;
+                    font-weight: 800;
+                    font-size: 0.85rem;
+                    border-top: 2px solid #cbd5e0;
+                }
+                .invoice-section {
+                    padding: 10px 20px;
+                    border-bottom: 1px solid #e2e8f0;
+                }
+                .section-title {
+                    font-weight: 800;
+                    font-size: 0.8rem;
+                    color: #2b6cb0;
+                    margin-bottom: 6px;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+                .section-content {
+                    font-size: 0.75rem;
+                    color: #4a5568;
+                    line-height: 1.5;
+                    padding-right: 18px;
+                }
+                .bank-details {
+                    background: #f0fff4;
+                    border-radius: 8px;
+                    padding: 6px 12px;
+                    margin-top: 4px;
+                    border-right: 3px solid #48bb78;
+                }
+                .bank-details p { margin: 2px 0; font-size: 0.7rem; }
+                .contact-numbers {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                    margin-top: 4px;
+                }
+                .contact-item {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    background: #f7fafc;
+                    padding: 4px 12px;
+                    border-radius: 40px;
+                    text-decoration: none;
+                    font-size: 0.75rem;
+                }
+                .whatsapp-item { border: 1px solid #25D366; }
+                .call-item { border: 1px solid #2b6cb0; }
+                .contact-number {
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    color: #2d3748;
+                    direction: ltr;
+                }
+                .signature-section {
+                    padding: 10px 20px;
+                    margin-top: 35px;
+                }
+                .sign-line {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 10px;
+                    gap: 30px;
+                    flex-wrap: wrap;
+                }
+                .sign-item { flex: 1; text-align: center; }
+                .sign-item hr {
+                    width: 80%;
+                    margin: 5px auto;
+                    border: none;
+                    border-top: 1px solid #cbd5e0;
+                }
+                .sign-item div { font-size: 0.7rem; }
+                .invoice-footer {
+                    background: #1a202c;
+                    color: #a0aec0;
+                    padding: 10px 20px;
+                    display: flex;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    font-size: 0.65rem;
+                }
+                .print-btn {
+                    display: block;
+                    width: 200px;
+                    margin: 20px auto;
+                    background: #2b6cb0;
+                    color: white;
+                    border: none;
+                    border-radius: 40px;
+                    padding: 8px 16px;
+                    font-family: 'Cairo', sans-serif;
+                    font-weight: 700;
+                    cursor: pointer;
+                    text-align: center;
+                }
+                @media print {
+                    body { background: white; padding: 0; margin: 0; }
+                    .print-btn { display: none; }
+                    .invoice-container { box-shadow: none; border-radius: 0; max-width: 100%; margin: 0; }
+                    @page { size: A4; margin: 0.5cm; }
+                }
+                @media (max-width: 700px) {
+                    .info-row { flex-direction: column; gap: 5px; }
+                    .invoice-table th, .invoice-table td { font-size: 0.6rem; padding: 5px 3px; }
+                }
+            </style>
+        </head>
+        <body>
+        <div class="invoice-container">
+            <div class="invoice-header">
+                <h1>GUMMYBEAR</h1>
+                <div class="company-sub">شركة الأداء الحديدي لاستيراد المكملات الغذائية والفيتامينات</div>
+            </div>
+            <div class="invoice-info">
+                <div class="info-row">
+                    <div class="info-box"><strong>📅 تاريخ الفاتورة:</strong> ${invoiceDate}</div>
+                    <div class="info-box"><strong>🔢 رقم الفاتورة:</strong> ${invoiceNumber}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-box"><strong>🏪 الصيدلية:</strong> ${pharmacyName}</div>
+                    <div class="info-box"><strong>📍 العنوان:</strong> ${pharmacyAddress}</div>
+                </div>
+            </div>
+            <table class="invoice-table">
+                <thead><tr><th>المنتج</th><th>سعر القطعة</th><th>سعر العرض<br>(25 قطعة)</th><th>الكمية</th><th>الإجمالي</th></tr></thead>
+                <tbody>
+                    ${productsHTML}
+                    <tr class="total-row"><td colspan="4" style="text-align:left;"><strong>💰 إجمالي الفاتورة</strong></td><td><strong>${total.toFixed(2)} دينار</strong></td></tr>
+                </tbody>
+            </table>
+            <div class="invoice-section">
+                <div class="section-title">🎁 العرض يشمل</div>
+                <div class="section-content">${standMessage}</div>
+            </div>
+            <div class="invoice-section">
+                <div class="section-title">💰 شروط الدفع</div>
+                <div class="section-content">• السداد على دفعات أسبوعية<br>• مدة السداد: شهر واحد من تاريخ الفاتورة (أقصى حد)<br>• الدفع نقداً أو عبر التحويل البنكي</div>
+            </div>
+            <div class="invoice-section">
+                <div class="section-title">🏦 الحساب البنكي للحوالات</div>
+                <div class="bank-details">
+                    <p><strong>اسم المستفيد:</strong> محمد غيث يوسف عبد الله الفيتوري</p>
+                    <p><strong>فرع البنك:</strong> طرابلس الرئيسي</p>
+                    <p><strong>رقم الحساب:</strong> 055011052623017</p>
+                    <p><strong>IBAN:</strong> LY20007055055011052623017</p>
+                </div>
+            </div>
+            <div class="invoice-section">
+                <div class="section-title">📞 للتواصل والطلب</div>
+                <div class="contact-numbers">
+                    <a href="https://wa.me/218913738730" class="contact-item whatsapp-item" target="_blank">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" fill="#25D366"/></svg>
+                        091-3738730 (واتساب)
+                    </a>
+                    <a href="tel:0922006666" class="contact-item call-item">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58L3.654 1.328z" fill="#2b6cb0"/></svg>
+                        092-2006666 (اتصال)
+                    </a>
+                </div>
+            </div>
+            <div class="signature-section">
+                <div class="sign-line">
+                    <div class="sign-item"><hr><div>توقيع المستلم</div></div>
+                    <div class="sign-item"><hr><div>اسم المستلم</div></div>
+                </div>
+            </div>
+            <div class="invoice-footer">
+                <div>شكراً لثقتكم بمنتجات GummyBear 🧸</div>
+                <div>هذه الفاتورة صالحة لمدة 30 يوماً من تاريخها</div>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button class="print-btn" onclick="window.print();">🖨️ طباعة أو حفظ كـ PDF</button>
+        </div>
+        </body>
+        </html>`;
+        
+        const win = window.open();
+        win.document.write(invoiceHTML);
+        win.document.close();
+    }
 
     function renderOrderFields() {
         orderFields.innerHTML = PRODUCTS.map(p => `
@@ -512,45 +966,12 @@
         document.querySelectorAll('.order-qty-input').forEach(input => input.addEventListener('input', updateOrderTotalAndWhatsApp));
     }
 
-    function updateOrderTotalAndWhatsApp() {
-        const standQty = getValueFromInput('standQty');
-        let total = 0;
-        let hasItems = false;
-
-        if (standQty > 0) {
-            hasItems = true;
-            total += standQty * 2070;
-        }
-
-        PRODUCTS.forEach(p => {
-            const qty = getValueFromInput(`order-${p.id}`);
-            if (qty > 0) {
-                hasItems = true;
-                total += getProductPrice(qty, p);
-            }
-        });
-
-        orderTotalSpan.innerText = total;
-
-        if (hasItems && total > 0) {
-            let message = 'مرحباً، أود طلب:\n\n';
-            if (standQty > 0) message += `> ${standQty} × عرض الستاند (باقة 25 قطعة) = ${standQty * 2070} دينار\n`;
-            PRODUCTS.forEach(p => {
-                const qty = getValueFromInput(`order-${p.id}`);
-                if (qty > 0) message += `> ${qty} × ${p.name} = ${getProductPrice(qty, p)} دينار\n`;
-            });
-            message += `\n> الإجمالي: ${total} دينار`;
-            whatsappOrderLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            whatsappOrderLink.classList.remove('disabled');
-        } else {
-            whatsappOrderLink.classList.add('disabled');
-            whatsappOrderLink.removeAttribute('href');
-        }
-    }
-
     function openOrderPopup() {
         renderOrderFields();
         standQtyInput.value = '';
+        pharmacyNameInput.value = 'صيدلية ابن البيطار';
+        pharmacyAddressInput.value = 'حي الأندلس، طرابلس';
+        invoiceNumberInput.value = '';
         standQtyInput.dispatchEvent(new Event('input'));
         orderPopup.classList.add('active');
         document.body.classList.add('modal-open');
@@ -560,6 +981,7 @@
     document.getElementById('openOrderBtn').addEventListener('click', openOrderPopup);
     document.getElementById('closeOrderPopup').addEventListener('click', closeOrderPopup);
     standQtyInput.addEventListener('input', updateOrderTotalAndWhatsApp);
+    pdfOrderBtn.addEventListener('click', generatePDFInvoice);
 
     window.addEventListener('click', e => {
         if (e.target === productPopup) closeProductPopup();
