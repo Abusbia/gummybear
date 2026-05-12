@@ -296,6 +296,11 @@
             background: var(--card-bg);
             color: var(--text-main);
         }
+        .order-row input:disabled {
+            background: var(--table-header);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
         .total-row {
             margin-top: 20px;
             padding-top: 16px;
@@ -437,7 +442,7 @@
 
             <div class="stand-field">
                 <label>🎁 عرض الستاند المجاني (25 قطعة - 5 من كل نوع)</label>
-                <input type="number" id="standQty" min="0" value="1" step="1" placeholder="0">
+                <input type="number" id="standQty" min="0" value="0" step="1" placeholder="0">
             </div>
 
             <div id="orderFields"></div>
@@ -456,7 +461,7 @@
 </div>
 
 <script>
-    // بيانات المنتجات (بدون إيموجي)
+    // بيانات المنتجات (بدون إيموجي للفاتورة)
     const PRODUCTS = [
         { id: "hsn", name: "Hair, Skin & Nails", retail: 125, pharmacy: 96, bulk: 84 },
         { id: "nostress", name: "No Stress", retail: 125, pharmacy: 96, bulk: 84 },
@@ -467,18 +472,34 @@
 
     let invoiceCounter = 1;
 
-    // دالة لتعبئة كميات الستاند
-    function fillStandOffer() {
-        const standQty = parseInt(standQtyInput.value);
-        if (standQty > 0) {
-            for (let i = 0; i < PRODUCTS.length; i++) {
-                const input = document.getElementById(`order-${PRODUCTS[i].id}`);
-                if (input && parseInt(input.value) === 0) {
-                    input.value = 5;
-                    input.dispatchEvent(new Event('input'));
+    // دالة لتفعيل/تعطيل حقول الكميات وتحديث قيمها
+    function toggleQuantityFields(disable, standQty = 0) {
+        for (let i = 0; i < PRODUCTS.length; i++) {
+            const input = document.getElementById(`order-${PRODUCTS[i].id}`);
+            if (input) {
+                input.disabled = disable;
+                if (disable) {
+                    // عند تفعيل الستاند: القيمة = 5 × عدد العروض
+                    input.value = 5 * standQty;
+                } else {
+                    // عند إلغاء الستاند: إفراغ الحقل
+                    input.value = '';
                 }
+                input.dispatchEvent(new Event('input'));
             }
         }
+    }
+
+    // دالة معالجة تغيير الستاند
+    function handleStandChange() {
+        const standQty = parseInt(standQtyInput.value) || 0;
+        const isStandActive = standQty > 0;
+        
+        // تعطيل حقول الكميات الفردية وتحديث قيمها
+        toggleQuantityFields(isStandActive, standQty);
+        
+        // تحديث الإجمالي
+        updateOrderTotalAndWhatsApp();
     }
 
     // عرض بطاقات المنتجات
@@ -506,23 +527,23 @@
                 <div class="card-body">
                     <div class="tagline-ltr" style="border-left-color:${p.id === 'hsn' ? '#ed8936' : p.id === 'nostress' ? '#48bb78' : p.id === 'multi' ? '#ed64a6' : p.id === 'sleep' ? '#9f7aea' : '#38b2ac'}">"${p.id === 'hsn' ? 'High Potency Therapeutic Formula' : p.id === 'nostress' ? 'Calm without Drowsiness' : p.id === 'multi' ? 'Smart Nutrition, Zero Sugar' : p.id === 'sleep' ? 'Restful Nights, Refreshing Mornings' : 'Essential Muscle & Nerve Support'}"</div>
                     <table class="pricing-table">
-                        <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th></tr></thead>
+                        <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th><tr></thead>
                         <tbody>
-                            <tr><td class="no-wrap">💰 سعر المستهلك</td><td class="price-main">${p.retail}.00</td><td class="note-text">-</td></tr>
-                            <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)</td><td class="offer-price">${p.pharmacy}.00</td><td class="note-text">هامش ربح ${p.retail - p.pharmacy}</td></tr>
-                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)</td><td class="bulk-price">${p.bulk}.00</td><td class="note-text">هامش ربح ${(p.retail - p.bulk) * 25}</td></tr>
-                            <tr><td class="no-wrap">📅 تاريخ الصلاحية</td><td colspan="2" class="expiry">${p.id === 'hsn' ? '07/2027' : p.id === 'nostress' ? '12/2027' : p.id === 'multi' ? '11/2027' : p.id === 'sleep' ? '02/2027' : '11/2027'}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                            <tr><td class="no-wrap">💰 سعر المستهلك<\/td><td class="price-main">${p.retail}.00<\/td><td class="note-text">-<\/td><\/tr>
+                            </tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)<\/td><td class="offer-price">${p.pharmacy}.00<\/td><td class="note-text">هامش ربح ${p.retail - p.pharmacy}<\/td><\/tr>
+                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)<\/td><td class="bulk-price">${p.bulk}.00<\/td><td class="note-text">هامش ربح ${(p.retail - p.bulk) * 25}<\/td><\/tr>
+                            <tr><td class="no-wrap">📅 تاريخ الصلاحية<\/td><td colspan="2" class="expiry">${p.id === 'hsn' ? '07/2027' : p.id === 'nostress' ? '12/2027' : p.id === 'multi' ? '11/2027' : p.id === 'sleep' ? '02/2027' : '11/2027'}<\/td><\/tr>
+                        <\/tbody>
+                    <\/table>
+                <\/div>
+            <\/div>
         `).join('');
         document.querySelectorAll('.card-header').forEach(header => {
-            header.addEventListener('click', () => openProductPopup(PRODUCTS.find(p => p.id === header.dataset.id)));
+            header.addEventListener('click', () => openProductPopup(PRODUCTS_FULL.find(p => p.id === header.dataset.id)));
         });
     }
 
-    // معلومات المنتجات للنافذة المنبثقة (بالنص الكامل مع الإيموجي)
+    // معلومات المنتجات للنافذة المنبثقة (بالإيموجي)
     const PRODUCTS_FULL = [
         { id: "hsn", name: "Hair, Skin & Nails", displayName: "👑 Hair, Skin & Nails", 
           composition: `<div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.</div>`,
@@ -588,7 +609,14 @@
     function getCurrentQuantities() {
         const quantities = [];
         for (let i = 0; i < PRODUCTS.length; i++) {
-            quantities.push(getValueFromInput(`order-${PRODUCTS[i].id}`));
+            let val = getValueFromInput(`order-${PRODUCTS[i].id}`);
+            // إذا كان الحقل معطلاً (الستاند مفعل)، نستخدم القيمة 5 × عدد الستاند
+            const input = document.getElementById(`order-${PRODUCTS[i].id}`);
+            if (input && input.disabled) {
+                const standQty = getValueFromInput('standQty');
+                val = 5 * standQty;
+            }
+            quantities.push(val);
         }
         return quantities;
     }
@@ -596,35 +624,44 @@
     function getTotal() {
         const standQty = getValueFromInput('standQty');
         let total = 0;
-        if (standQty > 0) total += standQty * 2070;
-        PRODUCTS.forEach((p, idx) => {
-            const qty = getValueFromInput(`order-${p.id}`);
-            if (qty > 0) total += getProductPrice(qty, p);
-        });
+        if (standQty > 0) {
+            // الستاند: كل منتج (5 × عدد العروض) قطعة بسعر العرض
+            for (let i = 0; i < PRODUCTS.length; i++) {
+                total += (5 * standQty) * PRODUCTS[i].bulk;
+            }
+        } else {
+            PRODUCTS.forEach((p, idx) => {
+                const qty = getValueFromInput(`order-${p.id}`);
+                if (qty > 0) total += getProductPrice(qty, p);
+            });
+        }
         return total;
     }
 
     function updateOrderTotalAndWhatsApp() {
         const standQty = getValueFromInput('standQty');
+        const isStandActive = standQty > 0;
         let total = 0;
         let hasItems = false;
         let message = 'مرحباً، أود طلب:\n\n';
 
-        if (standQty > 0) {
+        if (isStandActive) {
             hasItems = true;
-            total += standQty * 2070;
-            message += `> ${standQty} × عرض الستاند (باقة 25 قطعة) = ${standQty * 2070} دينار\n`;
+            const standTotal = standQty * 2070;
+            total = standTotal;
+            message += `> ${standQty} × عرض الستاند (باقة 25 قطعة من كل نوع) = ${standTotal} دينار\n`;
+            message += `   (يشمل ${standQty * 5} قطع من كل منتج)\n`;
+        } else {
+            PRODUCTS.forEach(p => {
+                const qty = getValueFromInput(`order-${p.id}`);
+                if (qty > 0) {
+                    hasItems = true;
+                    const subtotal = getProductPrice(qty, p);
+                    total += subtotal;
+                    message += `> ${qty} × ${p.name} = ${subtotal} دينار\n`;
+                }
+            });
         }
-
-        PRODUCTS.forEach(p => {
-            const qty = getValueFromInput(`order-${p.id}`);
-            if (qty > 0) {
-                hasItems = true;
-                const subtotal = getProductPrice(qty, p);
-                total += subtotal;
-                message += `> ${qty} × ${p.name} = ${subtotal} دينار\n`;
-            }
-        });
 
         orderTotalSpan.innerText = total;
         message += `\n> الإجمالي: ${total} دينار`;
@@ -646,7 +683,7 @@
         return `26${sequential}`;
     }
 
-    // إنشاء الفاتورة النهائية (بصيحة HTML للطباعة)
+    // إنشاء الفاتورة النهائية
     function generatePDFInvoice() {
         const total = getTotal();
         if (total <= 0) return;
@@ -658,18 +695,18 @@
             invoiceNumber = getNextInvoiceNumber();
         }
         const invoiceDate = new Date().toISOString().slice(0,10);
-        const quantities = getCurrentQuantities();
         const standQty = getValueFromInput('standQty');
+        const isStandActive = standQty > 0;
         
         // بناء جدول المنتجات في الفاتورة
         let productsHTML = '';
         let grandTotal = 0;
         
-        if (standQty > 0) {
-            // عرض الستاند: نعرض المنتجات الخمسة بكمية 5 لكل منها
+        if (isStandActive) {
+            // عرض الستاند: نعرض المنتجات الخمسة بكمية (5 × عدد العروض) لكل منها
             for (let i = 0; i < PRODUCTS.length; i++) {
                 const product = PRODUCTS[i];
-                const qty = 5;
+                const qty = 5 * standQty;
                 const itemTotal = qty * product.bulk;
                 grandTotal += itemTotal;
                 productsHTML += `
@@ -680,14 +717,14 @@
                         <td>${product.bulk}.00</td>
                         <td>${qty}</td>
                         <td>${itemTotal.toFixed(2)}</td>
-                    </tr>
+                    <tr>
                 `;
             }
         } else {
             // الوضع العادي: نعرض المنتجات حسب الكميات المدخلة
             for (let i = 0; i < PRODUCTS.length; i++) {
                 const product = PRODUCTS[i];
-                const qty = quantities[i];
+                const qty = getValueFromInput(`order-${product.id}`);
                 if (qty > 0) {
                     const useOffer = qty >= 25;
                     const unitPrice = useOffer ? product.bulk : product.pharmacy;
@@ -715,8 +752,8 @@
             </tr>
         `;
         
-        const standMessage = (standQty > 0) ? 
-            '• 5 قطع من كل منتج (إجمالي 25 قطعة) - ستاند عرض مجاني (قيمته 90 دينار)' : 
+        const standMessage = (isStandActive) ? 
+            `• ${standQty} × 5 قطع من كل منتج (إجمالي ${standQty * 25} قطعة) - ستاند عرض مجاني (قيمته 90 دينار)` : 
             '• الستاند غير مشمول (يلزم طلب 5 قطع من كل منتج على الأقل)';
         
         const invoiceHTML = `<!DOCTYPE html>
@@ -815,10 +852,12 @@
 
     function openOrderPopup() {
         renderOrderFields();
-        standQtyInput.value = 1;
+        standQtyInput.value = 0;
         pharmacyNameInput.value = 'صيدلية ابن البيطار';
         pharmacyAddressInput.value = 'حي الأندلس، طرابلس';
         invoiceNumberInput.value = '';
+        // تفعيل حقول الكميات (لأن standQty = 0)
+        toggleQuantityFields(false, 0);
         standQtyInput.dispatchEvent(new Event('input'));
         orderPopup.classList.add('active');
         document.body.classList.add('modal-open');
@@ -828,8 +867,7 @@
     document.getElementById('openOrderBtn').addEventListener('click', openOrderPopup);
     document.getElementById('closeOrderPopup').addEventListener('click', closeOrderPopup);
     standQtyInput.addEventListener('input', function() {
-        fillStandOffer();
-        updateOrderTotalAndWhatsApp();
+        handleStandChange();
     });
     pdfOrderBtn.addEventListener('click', generatePDFInvoice);
 
@@ -842,10 +880,6 @@
     });
 
     renderProducts();
-    // تهيئة أولية لعرض الستاند
-    setTimeout(() => {
-        standQtyInput.dispatchEvent(new Event('input'));
-    }, 100);
 </script>
 </body>
 </html>
