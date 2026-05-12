@@ -206,7 +206,7 @@
         .popup-overlay.active { opacity: 1; visibility: visible; }
         .popup-modal {
             background: var(--modal-bg); color: var(--modal-text);
-            width: 90%; max-width: 680px; max-height: 85vh; border-radius: 24px;
+            width: 90%; max-width: 750px; max-height: 85vh; border-radius: 24px;
             overflow: hidden; display: flex; flex-direction: column;
         }
         .popup-header {
@@ -223,9 +223,10 @@
             font-size: 0.85rem; font-weight: 700; color: #94a3b8; cursor: pointer;
         }
         .tab-btn.active { color: #2b6cb0; border-bottom: 2px solid #2b6cb0; }
-        .popup-content { padding: 20px; overflow-y: auto; }
-        .sci-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-        .sci-table th, .sci-table td { padding: 8px 6px; border-bottom: 1px solid var(--border-color); text-align: right; font-size: 0.75rem; color: var(--modal-text); }
+        .popup-content { padding: 20px; overflow-y: auto; max-height: calc(85vh - 120px); }
+        .sci-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 0.7rem; }
+        .sci-table th, .sci-table td { padding: 8px 6px; border-bottom: 1px solid var(--border-color); text-align: right; vertical-align: top; color: var(--modal-text); }
+        .sci-table th { background: var(--table-header); font-weight: 700; }
         .warning-box {
             background: #fff5f5; padding: 12px; border-radius: 12px; margin-top: 16px; font-size: 0.75rem;
             border-right: 3px solid #e53e3e; color: var(--modal-text);
@@ -364,10 +365,27 @@
             .order-row { flex-direction: column; align-items: flex-start; gap: 8px; }
             .order-row input { width: 100%; }
             .sci-ref-btn { flex-direction: column; gap: 6px; padding: 10px 20px; }
+            .sci-table th, .sci-table td { font-size: 0.6rem; padding: 4px 3px; }
         }
         @media print {
             .order-btn, .popup-overlay { display: none; }
             .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+        }
+
+        /* تنسيق الجداول العلمية في النافذة المنبثقة */
+        .popup-content .sci-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .popup-content .sci-table th,
+        .popup-content .sci-table td {
+            white-space: normal;
+        }
+        @media (max-width: 600px) {
+            .popup-content .sci-table {
+                white-space: normal;
+            }
         }
     </style>
 </head>
@@ -436,6 +454,10 @@
                 <input type="text" id="pharmacyAddress" placeholder="حي الأندلس، طرابلس">
             </div>
             <div class="form-field">
+                <label>📅 تاريخ الفاتورة</label>
+                <input type="date" id="invoiceDateField" value="">
+            </div>
+            <div class="form-field">
                 <label>🔢 رقم الفاتورة (اختياري)</label>
                 <input type="text" id="invoiceNumber" placeholder="يُترك تلقائياً إن لم تحدده">
             </div>
@@ -461,18 +483,153 @@
 </div>
 
 <script>
-    // بيانات المنتجات (بدون إيموجي للفاتورة)
-    const PRODUCTS = [
-        { id: "hsn", name: "Hair, Skin & Nails", retail: 125, pharmacy: 96, bulk: 84 },
-        { id: "nostress", name: "No Stress", retail: 125, pharmacy: 96, bulk: 84 },
-        { id: "multi", name: "Multivitamin - Sugar-Free", retail: 115, pharmacy: 91, bulk: 82 },
-        { id: "sleep", name: "Sleep", retail: 110, pharmacy: 88, bulk: 82 },
-        { id: "magnesium", name: "Magnesium", retail: 110, pharmacy: 88, bulk: 82 }
+    // ===== بيانات المنتجات الكاملة (للنافذة المنبثقة) =====
+    const PRODUCTS_FULL = [
+        {
+            id: "hsn",
+            name: "Hair, Skin & Nails",
+            displayName: "👑 Hair, Skin & Nails",
+            color: "#dd6b20",
+            colorGrad: "linear-gradient(135deg,#dd6b20,#ed8936)",
+            tagline: "High Potency Therapeutic Formula",
+            retail: 125, pharmacy: 96, bulk: 84,
+            composition: `
+                <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
+                <tr><td class="no-wrap">البيوتين</td><td>5000 µg</td><td>يدعم إنتاج الكيراتين لتحسين قوة الشعر ومنع هشاشة الأظافر.</td><td>يوفر تركيبة بجرعة عالية (5000 ميكروغرام) لدعم غذائي مركّز.</td><td>National Institutes of Health (NIH) – Biotin Fact Sheet.</td></tr>
+                <tr><td class="no-wrap">فيتامين أ</td><td>450 µg</td><td>يدعم إنتاج الزهم الطبيعي في فروة الرأس للحفاظ على توازن الرطوبة الطبيعي للبشرة والشعر.</td><td>يوفر جرعة معتدلة وآمنة (450 ميكروغرام) تدعم وظيفة الزهم الصحية.</td><td>Cleveland Clinic – Vitamin A for Skin Health.</td></tr>
+                <tr><td class="no-wrap">فيتامين E</td><td>14 mg</td><td>يعمل كمضاد أكسدة قوي يحمي أغشية خلايا البشرة من التلف الناتج عن أشعة الشمس والملوثات.</td><td>يساعد في تقليل الإجهاد التأكسدي المرتبط بصحة البشرة وفروة الرأس.</td><td>National Institutes of Health (NIH) – Vitamin E Fact Sheet.</td></tr>
+                <tr><td class="no-wrap">الزنك</td><td>3 mg</td><td>يلعب دورا حيويا في إصلاح أنسجة الشعر ويدعم وظيفة الغدد الدهنية حول بصيلات الشعر.</td><td>معدن أساسي يساعد في منع تساقط الشعر الناتج عن نقص الزنك.</td><td>Harvard T.H. Chan School of Public Health – Zinc.</td></tr>
+                <tr><td class="no-wrap">فيتامين D3</td><td>4 µg (160 IU)</td><td>يدعم دورة نمو بصيلات الشعر الطبيعية ويساعد في الحفاظ على وظيفة خلايا الجلد الصحية.</td><td>جرعة آمنة ومنخفضة مناسبة للاستخدام اليومي طويل الأمد.</td><td>NIH Office of Dietary Supplements – Vitamin D Fact Sheet.</td></tr>
+                <tr><td class="no-wrap">فيتامين C</td><td>20 mg</td><td>ضروري لإنتاج الكولاجين الطبيعي ومرونة البشرة. كما يدعم امتصاص الحديد.</td><td>يوفر فائدة مزدوجة: حماية مضادة للأكسدة بالإضافة إلى تعزيز امتصاص الحديد الغذائي.</td><td>American Academy of Dermatology (AAD) – Vitamin C for Skin Health.</td></tr>
+                <tr><td class="no-wrap">فيتامين B12</td><td>8 µg</td><td>يدعم تكوين خلايا الدم الحمراء الصحية، مما يساعد في توصيل الأكسجين إلى فروة الرأس وبصيلات الشعر.</td><td>يساعد في منع بهتان الشعر المرتبط بالتعب ويدعم التمثيل الغذائي الصحي للخلايا.</td><td>National Institutes of Health (NIH) – Vitamin B12 Fact Sheet.</td></tr>
+                <tr><td class="no-wrap">فيتامين B6</td><td>2 mg</td><td>يدعم إنتاج البروتين، بما في ذلك تكسير الأحماض الأمينية الضرورية لبناء أنسجة الشعر.</td><td>يساهم في صحة البشرة بشكل عام ويعمل بشكل تآزري مع فيتامينات B الأخرى.</td><td>Harvard T.H. Chan School of Public Health – Vitamin B6.</td></tr>
+                </tbody></table>
+                <div class="warning-box"><strong>📌 ملاحظة مهمة حول الفولات:</strong> هو الشكل الطبيعي لفيتامين B9 ويستخدم مباشرة من قبل الجسم. أما حمض الفوليك (Folic Acid) فهو الشكل الاصطناعي، ويتطلب تحويلاً إنزيمياً في الكبد ليصبح نشطاً. الجرعات العالية من حمض الفوليك الاصطناعي يمكن أن تؤدي إلى تراكم جزء منه في الدم دون أن يتحول إلى شكله النشط – وهو أمر لا يحدث مع الفولات الطبيعي. الأشخاص الذين لديهم طفرات في جين MTHFR لديهم قدرة منخفضة على معالجة حمض الفوليك الاصطناعي بشكل فعال، ويجب عليهم الاعتماد على الفولات الطبيعي.</div>
+            `,
+            warnings: `
+                <ul><li>⚠️ البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية (مثل هرمونات الغدة الدرقية، التروبونين).</li><li>⚠️ يتفاعل مع أدوية الصرع (carbamazepine, phenytoin, phenobarbital).</li><li>⚠️ غير موصى به للنساء الحوامل أو المرضعات دون استشارة طبية.</li><li>⚠️ الجرعة اليومية: 1-2 Gummy حسب العمر.</li><li>⚠️ يحفظ بعيداً عن متناول الأطفال.</li></ul>
+                <div class="warning-box">⚠️ في حالات نادرة، قد تحدث: اضطرابات هضمية بسيطة (غثيان، انتفاخ)، حب شباب خفيف (نادر جداً عند الجرعات العالية من البيوتين)، تفاعلات حساسية جلدية نادرة.</div>
+            `
+        },
+        {
+            id: "nostress",
+            name: "No Stress",
+            displayName: "🌿 No Stress",
+            color: "#2f855a",
+            colorGrad: "linear-gradient(135deg,#2f855a,#48bb78)",
+            tagline: "Calm without Drowsiness",
+            retail: 125, pharmacy: 96, bulk: 84,
+            composition: `
+                <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
+                <tr><td class="no-wrap">أشواغاندا KSM-66®</td><td>300mg</td><td>يساعد الجسم على إدارة التوتر عن طريق خفض مستويات الكورتيزول وتوازن الجهاز الكظري.</td><td>يستخدم أشواغاندا KSM-66 الأكثر دراسة سريرياً في العالم لتقليل القلق والتعب بشكل مثبت.</td><td>National Institutes of Health (NIH) – Ashwagandha Research & PubMed Central (PMC).</td><\/tr>
+                <tr><td class="no-wrap">زهرة الآلام (Passionflower)</td><td>10mg</td><td>تدعم مستويات GABA في الدماغ لتعزيز الاسترخاء.</td><td>تعزز الشعور بالهدوء دون التسبب في النعاس، مما يجعلها مثالية لإدارة التوتر اليومي.</td><td>Sleep Foundation – Passionflower & Mount Sinai Health System.</td><\/tr>
+                <tr><td class="no-wrap">بلسم الليمون (Lemon Balm)</td><td>10mg</td><td>يحسن المزاج ويساعد في تقليل أعراض الأرق والتهيج.</td><td>يعمل بشكل تآزري مع الأشواغاندا لدعم الوضوح الذهني والتركيز تحت الضغط.</td><td>Cleveland Clinic – Lemon Balm Benefits for Mental Health.</td><\/tr>
+                <\/tbody><\/table>
+                <div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).</div>
+            `,
+            warnings: `
+                <ul><li>⚠️ قد يسبب النعاس – لا يقود السيارة أو تشغل الآلات الثقيلة بعد تناوله.</li><li>⚠️ يتفاعل مع مضادات الاكتئاب وأدوية الضغط وأدوية السكري والغدة الدرقية.</li><li>⚠️ لا يستخدم لقرحة المعدة النشطة أو أمراض المناعة الذاتية دون استشارة طبية.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ غير موصى به للنساء الحوامل أو المرضعات دون استشارة طبية.</li></ul>
+                <div class="warning-box">⚠️ في حالات نادرة، قد تحدث: نعاس خفيف، اضطرابات هضمية بسيطة (غثيان، إسهال)، صداع خفيف، جفاف الفم.</div>
+            `
+        },
+        {
+            id: "multi",
+            name: "Multivitamin - Sugar-Free",
+            displayName: "🥇 Multivitamin - Sugar-Free",
+            color: "#d53f8c",
+            colorGrad: "linear-gradient(135deg,#d53f8c,#ed64a6)",
+            tagline: "Smart Nutrition, Zero Sugar",
+            retail: 115, pharmacy: 91, bulk: 82,
+            composition: `
+                <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
+                <tr><td class="no-wrap">فيتامين C</td><td>30mg</td><td>يدعم وظيفة المناعة وتخليق الكولاجين لصحة البشرة والأنسجة.</td><td>يعمل كمضاد أكسدة قوي يحمي الخلايا من الإجهاد التأكسدي.</td><td>National Institutes of Health (NIH) - Vitamin C Fact Sheet</td><\/tr>
+                <tr><td class="no-wrap">فيتامين E</td><td>14mg</td><td>ضروري للرؤية والتكاثر وصحة الدم والدماغ والبشرة.</td><td>يوفر خصائص مضادة للالتهابات ويعزز الاستجابة المناعية.</td><td>Mayo Clinic - Vitamin E Information</td><\/tr>
+                <tr><td class="no-wrap">فيتامين D3</td><td>10mcg (400 IU)</td><td>ضروري لامتصاص الكالسيوم وتمعدن العظام.</td><td>أساسي للحفاظ على قوة العضلات ودعم جهاز المناعة.</td><td>Harvard T.H. Chan - Vitamin D</td><\/tr>
+                <tr><td class="no-wrap">فيتامين B1</td><td>1.2mg</td><td>يساعد الجسم على تحويل الطعام (الكربوهيدرات) إلى وقود (جلوكوز) للطاقة.</td><td>حيوي للحفاظ على صحة الأعصاب وصحة القلب.</td><td>Mount Sinai Health - Thiamine (B1)</td><\/tr>
+                <tr><td class="no-wrap">فيتامين B2</td><td>1.3mg</td><td>ضروري لإنتاج الطاقة والوظيفة الخلوية.</td><td>يساعد في الحفاظ على صحة الرؤية والبشرة مع تقليل الإجهاد التأكسدي.</td><td>Oregon State University - Linus Pauling Institute</td><\/tr>
+                <\/tbody><\/table>
+                <div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.</div>
+            `,
+            warnings: `
+                <ul><li>⚠️ يحتوي على يود – الحذر مع أمراض الغدة الدرقية.</li><li>⚠️ الكالسيوم قد يتداخل مع المضادات الحيوية (tetracyclines, fluoroquinolones).</li><li>⚠️ الكروم قد يعزز تأثير أدوية السكري (insulin, metformin) – مراقبة سكر الدم مطلوبة.</li><li>⚠️ لا تتجاوز الجرعة الموصى بها.</li><li>⚠️ ينصح النساء الحوامل باستشارة الطبيب قبل الاستخدام.</li></ul>
+                <div class="warning-box">⚠️ في حالات نادرة، قد تحدث: اضطرابات هضمية بسيطة (إمساك من الكالسيوم، أو إسهال من الزنك/فيتامين C بجرعات عالية)، غثيان خفيف، طعم معدني في الفم (نادر من الزنك).</div>
+            `
+        },
+        {
+            id: "sleep",
+            name: "Sleep",
+            displayName: "🌙 Sleep",
+            color: "#6b46c1",
+            colorGrad: "linear-gradient(135deg,#6b46c1,#9f7aea)",
+            tagline: "Restful Nights, Refreshing Mornings",
+            retail: 110, pharmacy: 88, bulk: 82,
+            composition: `
+                <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
+                <tr><td class="no-wrap">ميلاتونين (Melatonin)</td><td>1mg</td><td>ينظم دورة النوم والاستيقاظ ويشير للجسم بأنه حان وقت النوم.</td><td>يساعد في تقليل الوقت اللازم للنوم ويحسن جودة النوم بشكل عام.</td><td>National Sleep Foundation & Mayo Clinic</td><\/tr>
+                <tr><td class="no-wrap">5-HTP (Serotonin)</td><td>50mg</td><td>يعمل كمقدمة للسيروتونين، الذي يدعم المزاج ويساعد في تنظيم دورة النوم.</td><td>يدعم الصحة العاطفية ويعزز حالة نوم أعمق وأكثر راحة.</td><td>Mount Sinai Health System</td><\/tr>
+                <tr><td class="no-wrap">زهرة الآلام (Passionflower)</td><td>15mg</td><td>تدعم مستويات GABA في الدماغ لتقليل الأرق العصبي.</td><td>تساعد في تهدئة الأفكار المتسارعة والقلق قبل النوم.</td><td>Sleep Foundation</td><\/tr>
+                <\/tbody><\/table>
+                <div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).</div>
+            `,
+            warnings: `
+                <ul><li>⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين).</li><li>⚠️ قد يسبب النعاس – لا تقود السيارة أو تشغل الآلات بعد تناوله.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ قد يسبب أحلاما مزعجة أو كوابيس.</li><li>⚠️ لا يستخدم لأمراض المناعة الذاتية دون استشارة طبية.</li></ul>
+                <div class="warning-box">⚠️ في حالات نادرة، قد تحدث: نعاس أو خمول في اليوم التالي، أحلام مزعجة، دوخة أو صداع خفيف، اضطرابات هضمية بسيطة (غثيان)، جفاف الفم.</div>
+            `
+        },
+        {
+            id: "magnesium",
+            name: "Magnesium",
+            displayName: "💪 Magnesium",
+            color: "#319795",
+            colorGrad: "linear-gradient(135deg,#319795,#38b2ac)",
+            tagline: "Essential Muscle & Nerve Support",
+            retail: 110, pharmacy: 88, bulk: 82,
+            composition: `
+                <table class="sci-table"><thead><tr><th>المكون</th><th>الحصة</th><th>الفائدة</th><th>الميزة</th><th>المصدر العلمي</th></tr></thead><tbody>
+                <tr><td class="no-wrap">سترات المغنيسيوم (Magnesium Citrate)</td><td>100mg</td><td>يدعم استرخاء العضلات، وظيفة الأعصاب، ويساعد في تقليل التعب والإرهاق.</td><td>تم تركيبه بجرعة عنصرية للتوفير الحيوي الأمثل، ويدعم أكثر من 300 تفاعل كيميائي في الجسم.</td><td>National Institutes of Health (NIH) - Magnesium Fact Sheet</td><\/tr>
+                <tr><td class="no-wrap">فيتامين B6</td><td>1mg</td><td>يعمل كعامل مساعد لتعزيز امتصاص المغنيسيوم والاستفادة منه داخل الخلايا.</td><td>يدعم الجهاز العصبي وصحة المناعة، مما يساهم في الصحة العقلية.</td><td>Mayo Clinic - Vitamin B6</td><\/tr>
+                <tr><td class="no-wrap">فيتامين B12</td><td>1.3mcg</td><td>ضروري لإنتاج الطاقة وتكوين خلايا الدم الحمراء الصحية.</td><td>يساعد في منع التعب ويدعم صحة الأعصاب على المدى الطويل.</td><td>National Institutes of Health (NIH) - Vitamin B12</td><\/tr>
+                <\/tbody><\/table>
+                <div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.</div>
+            `,
+            warnings: `
+                <ul><li>⚠️ موانع استخدام: الفشل الكلوي الحاد دون استشارة الطبيب.</li><li>⚠️ قد يتفاعل مع المضادات الحيوية – فارق 2-3 ساعات.</li><li>⚠️ يتفاعل مع أدوية ضغط الدم ومدرات البول وأدوية القلب.</li><li>⚠️ الجرعة اليومية: حبتان للبالغين، حبة واحدة للأطفال (6-13 سنة).</li></ul>
+                <div class="warning-box">⚠️ في حالات نادرة، قد تحدث: اضطرابات هضمية خفيفة (إسهال – هو الأكثر شيوعاً)، انتفاخ أو غازات، غثيان خفيف.</div>
+            `
+        }
     ];
+
+    // بيانات المنتجات المبسطة (للبطاقات)
+    const PRODUCTS = PRODUCTS_FULL.map(p => ({
+        id: p.id,
+        name: p.name,
+        displayName: p.displayName,
+        retail: p.retail,
+        pharmacy: p.pharmacy,
+        bulk: p.bulk,
+        tagline: p.tagline,
+        color: p.color,
+        colorGrad: p.colorGrad,
+        expiry: p.id === 'hsn' ? '07/2027' : p.id === 'nostress' ? '12/2027' : p.id === 'multi' ? '11/2027' : p.id === 'sleep' ? '02/2027' : '11/2027',
+        profitSingle: p.retail - p.pharmacy,
+        profitBulk: (p.retail - p.bulk) * 25,
+        desc: p.id === 'hsn' ? '🌿 Rich in Biotin 5000mcg + Natural Folate + 10 ingredients' : 
+              p.id === 'nostress' ? '🌿 Ashwagandha KSM-66 300mg<br>✨ KSM-66 is a premium branded ingredient' :
+              p.id === 'multi' ? '🌿 16 essential vitamins & minerals.<br>✨ Safe for diabetics & Keto-friendly' :
+              p.id === 'sleep' ? '🌿 Advanced formula with Melatonin + 5-HTP + 4 Herbs<br>✨ Natural solution for better sleep quality' :
+              '🌿 Magnesium Citrate with B6+B12+D3<br>✨ For maximum absorption & energy recovery'
+    }));
 
     let invoiceCounter = 1;
 
-    // دالة لتفعيل/تعطيل حقول الكميات وتحديث قيمها
+    function getTodayDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
     function toggleQuantityFields(disable, standQty = 0) {
         for (let i = 0; i < PRODUCTS.length; i++) {
             const input = document.getElementById(`order-${PRODUCTS[i].id}`);
@@ -488,7 +645,6 @@
         }
     }
 
-    // دالة معالجة تغيير الستاند
     function handleStandChange() {
         const standQty = parseInt(standQtyInput.value) || 0;
         const isStandActive = standQty > 0;
@@ -496,70 +652,35 @@
         updateOrderTotalAndWhatsApp();
     }
 
-    // عرض بطاقات المنتجات
     function renderProducts() {
         const grid = document.getElementById('productsGrid');
         grid.innerHTML = PRODUCTS.map(p => `
             <div class="card">
-                <div class="card-header" style="background:${p.id === 'hsn' ? 'linear-gradient(135deg,#dd6b20,#ed8936)' : 
-                    p.id === 'nostress' ? 'linear-gradient(135deg,#2f855a,#48bb78)' :
-                    p.id === 'multi' ? 'linear-gradient(135deg,#d53f8c,#ed64a6)' :
-                    p.id === 'sleep' ? 'linear-gradient(135deg,#6b46c1,#9f7aea)' :
-                    'linear-gradient(135deg,#319795,#38b2ac)'}" data-id="${p.id}">
-                    <div class="product-name">${p.id === 'hsn' ? '👑 Hair, Skin & Nails' : 
-                                      p.id === 'nostress' ? '🌿 No Stress' : 
-                                      p.id === 'multi' ? '🥇 Multivitamin - Sugar-Free' : 
-                                      p.id === 'sleep' ? '🌙 Sleep' : '💪 Magnesium'}</div>
+                <div class="card-header" style="background:${p.colorGrad}" data-id="${p.id}">
+                    <div class="product-name">${p.displayName}</div>
                     <div class="gummies-badge">🍬 60 Gummies</div>
                     <div class="details-badge">📚 اضغط للتفاصيل العلمية</div>
-                    <div class="product-desc">${p.id === 'hsn' ? '🌿 Rich in Biotin 5000mcg + Natural Folate + 10 ingredients' : 
-                                       p.id === 'nostress' ? '🌿 Ashwagandha KSM-66 300mg<br>✨ KSM-66 is a premium branded ingredient' :
-                                       p.id === 'multi' ? '🌿 16 essential vitamins & minerals.<br>✨ Safe for diabetics & Keto-friendly' :
-                                       p.id === 'sleep' ? '🌿 Advanced formula with Melatonin + 5-HTP + 4 Herbs<br>✨ Natural solution for better sleep quality' :
-                                       '🌿 Magnesium Citrate with B6+B12+D3<br>✨ For maximum absorption & energy recovery'}</div>
+                    <div class="product-desc">${p.desc}</div>
                 </div>
                 <div class="card-body">
-                    <div class="tagline-ltr" style="border-left-color:${p.id === 'hsn' ? '#ed8936' : p.id === 'nostress' ? '#48bb78' : p.id === 'multi' ? '#ed64a6' : p.id === 'sleep' ? '#9f7aea' : '#38b2ac'}">"${p.id === 'hsn' ? 'High Potency Therapeutic Formula' : p.id === 'nostress' ? 'Calm without Drowsiness' : p.id === 'multi' ? 'Smart Nutrition, Zero Sugar' : p.id === 'sleep' ? 'Restful Nights, Refreshing Mornings' : 'Essential Muscle & Nerve Support'}"</div>
+                    <div class="tagline-ltr" style="border-left-color:${p.color}">"${p.tagline}"</div>
                     <table class="pricing-table">
-                        <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th></td></thead>
+                        <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th></tr></thead>
                         <tbody>
                             <tr><td class="no-wrap">💰 سعر المستهلك<\/td><td class="price-main">${p.retail}.00<\/td><td class="note-text">-<\/td><\/tr>
-                            <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)<\/td><td class="offer-price">${p.pharmacy}.00<\/td><td class="note-text">هامش ربح ${p.retail - p.pharmacy}<\/td><\/tr>
-                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)<\/td><td class="bulk-price">${p.bulk}.00<\/td><td class="note-text">هامش ربح ${(p.retail - p.bulk) * 25}<\/td><\/tr>
-                            <tr><td class="no-wrap">📅 تاريخ الصلاحية<\/td><td colspan="2" class="expiry">${p.id === 'hsn' ? '07/2027' : p.id === 'nostress' ? '12/2027' : p.id === 'multi' ? '11/2027' : p.id === 'sleep' ? '02/2027' : '11/2027'}<\/td><\/tr>
+                            <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)<\/td><td class="offer-price">${p.pharmacy}.00<\/td><td class="note-text">هامش ربح ${p.profitSingle}<\/td><\/tr>
+                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)<\/td><td class="bulk-price">${p.bulk}.00<\/td><td class="note-text">هامش ربح ${p.profitBulk}<\/td><\/tr>
+                            <tr><td class="no-wrap">📅 تاريخ الصلاحية<\/td><td colspan="2" class="expiry">${p.expiry}<\/td><\/tr>
                         <\/tbody>
                     <\/table>
                 <\/div>
             <\/div>
         `).join('');
         document.querySelectorAll('.card-header').forEach(header => {
-            header.addEventListener('click', () => openProductPopup(PRODUCTS_FULL.find(p => p.id === header.dataset.id)));
+            const productId = header.dataset.id;
+            header.addEventListener('click', () => openProductPopup(PRODUCTS_FULL.find(p => p.id === productId)));
         });
     }
-
-    // معلومات المنتجات للنافذة المنبثقة (بالإيموجي)
-    const PRODUCTS_FULL = [
-        { id: "hsn", name: "Hair, Skin & Nails", displayName: "👑 Hair, Skin & Nails", 
-          composition: `<div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.</div>`,
-          warnings: `<ul><li>⚠️ البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية.</li><li>⚠️ يتفاعل مع أدوية الصرع.</li><li>⚠️ غير موصى به للحوامل دون استشارة طبية.</li><li>⚠️ الجرعة اليومية: 1-2 Gummy حسب العمر.</li></ul>`
-        },
-        { id: "nostress", name: "No Stress", displayName: "🌿 No Stress",
-          composition: `<div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).</div>`,
-          warnings: `<ul><li>⚠️ قد يسبب النعاس – لا يقود السيارة بعد تناوله.</li><li>⚠️ يتفاعل مع مضادات الاكتئاب وأدوية الضغط.</li><li>⚠️ لا يستخدم لقرحة المعدة أو أمراض المناعة الذاتية دون استشارة.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li></ul>`
-        },
-        { id: "multi", name: "Multivitamin - Sugar-Free", displayName: "🥇 Multivitamin - Sugar-Free",
-          composition: `<div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.</div>`,
-          warnings: `<ul><li>⚠️ يحتوي على يود – الحذر مع أمراض الغدة الدرقية.</li><li>⚠️ الكالسيوم قد يتداخل مع المضادات الحيوية.</li><li>⚠️ الكروم يعزز تأثير أدوية السكري (مراقبة مطلوبة).</li><li>⚠️ ينصح النساء الحوامل باستشارة الطبيب قبل الاستخدام.</li></ul>`
-        },
-        { id: "sleep", name: "Sleep", displayName: "🌙 Sleep",
-          composition: `<div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).</div>`,
-          warnings: `<ul><li>⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين).</li><li>⚠️ قد يسبب النعاس.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ قد يسبب أحلاما مزعجة.</li></ul>`
-        },
-        { id: "magnesium", name: "Magnesium", displayName: "💪 Magnesium",
-          composition: `<div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.</div>`,
-          warnings: `<ul><li>⚠️ موانع استخدام: الفشل الكلوي الحاد دون استشارة الطبيب.</li><li>⚠️ قد يتفاعل مع المضادات الحيوية – فارق 2-3 ساعات.</li><li>⚠️ الجرعة اليومية: حبتان للبالغين.</li></ul>`
-        }
-    ];
 
     const productPopup = document.getElementById('productPopup');
     const popupTitle = document.getElementById('popupTitle');
@@ -568,10 +689,10 @@
     const tabBtns = document.querySelectorAll('#productPopup .tab-btn');
     
     function openProductPopup(product) {
-        const fullProduct = PRODUCTS_FULL.find(p => p.id === product.id);
-        popupTitle.innerHTML = fullProduct.displayName;
-        tabComp.innerHTML = fullProduct.composition;
-        tabWarn.innerHTML = fullProduct.warnings;
+        if (!product) return;
+        popupTitle.innerHTML = product.displayName;
+        tabComp.innerHTML = product.composition;
+        tabWarn.innerHTML = product.warnings;
         tabBtns[0].click();
         productPopup.classList.add('active');
         document.body.classList.add('modal-open');
@@ -591,6 +712,7 @@
     const standQtyInput = document.getElementById('standQty');
     const pharmacyNameInput = document.getElementById('pharmacyName');
     const pharmacyAddressInput = document.getElementById('pharmacyAddress');
+    const invoiceDateField = document.getElementById('invoiceDateField');
     const invoiceNumberInput = document.getElementById('invoiceNumber');
     const orderTotalSpan = document.getElementById('orderTotal');
     const whatsappOrderLink = document.getElementById('whatsappOrderLink');
@@ -675,7 +797,6 @@
         return `26${sequential}`;
     }
 
-    // إنشاء الفاتورة النهائية
     function generatePDFInvoice() {
         const total = getTotal();
         if (total <= 0) return;
@@ -686,7 +807,10 @@
         if (invoiceNumber === "") {
             invoiceNumber = getNextInvoiceNumber();
         }
-        const invoiceDate = new Date().toISOString().slice(0,10);
+        let invoiceDate = invoiceDateField.value;
+        if (invoiceDate === "") {
+            invoiceDate = getTodayDate();
+        }
         const standQty = getValueFromInput('standQty');
         const isStandActive = standQty > 0;
         
@@ -843,6 +967,7 @@
         standQtyInput.value = 0;
         pharmacyNameInput.value = '';
         pharmacyAddressInput.value = '';
+        invoiceDateField.value = getTodayDate();
         invoiceNumberInput.value = '';
         toggleQuantityFields(false, 0);
         standQtyInput.dispatchEvent(new Event('input'));
