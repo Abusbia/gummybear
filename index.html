@@ -437,7 +437,7 @@
 
             <div class="stand-field">
                 <label>🎁 عرض الستاند المجاني (25 قطعة - 5 من كل نوع)</label>
-                <input type="number" id="standQty" min="0" value="" step="1" placeholder="0">
+                <input type="number" id="standQty" min="0" value="1" step="1" placeholder="0">
             </div>
 
             <div id="orderFields"></div>
@@ -456,36 +456,18 @@
 </div>
 
 <script>
+    // بيانات المنتجات (بدون إيموجي)
     const PRODUCTS = [
-        { id: "hsn", name: "Hair, Skin & Nails", displayName: "👑 Hair, Skin & Nails", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "07/2027", 
-          desc: `🌿 Rich in Biotin 5000mcg + Natural Folate + 10 ingredients`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">البيوتين<\/td><td>5000 µg<\/td><td>يدعم إنتاج الكيراتين، يمنع هشاشة الأظافر<\/td><\/tr><tr><td class="no-wrap">فيتامين أ<\/td><td>450 µg<\/td><td>يدعم إنتاج الزهم الطبيعي لفروة الرأس<\/td><\/tr><tr><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة قوي<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>3 mg<\/td><td>يساعد في منع تساقط الشعر<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>4 µg<\/td><td>يدعم دورة نمو بصيلات الشعر<\/td><\/tr></tr><td class="no-wrap">فيتامين C<\/td><td>20 mg<\/td><td>ضروري لإنتاج الكولاجين<\/td><\/tr></tr><td class="no-wrap">فيتامين B12<\/td><td>8 µg<\/td><td>يدعم تكوين خلايا الدم<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>2 mg<\/td><td>يدعم إنتاج البروتين<\/td><\/tr><tr><td class="no-wrap">فيتامين B5<\/td><td>10 mg<\/td><td>يدعم توازن الرطوبة<\/td><\/tr><tr><td class="no-wrap">فيتامين B3<\/td><td>8 mg<\/td><td>يدعم إنتاج الطاقة<\/td><\/tr></tr><td class="no-wrap">فيتامين B2<\/td><td>400 µg<\/td><td>يدعم الطاقة الخلوية<\/td><\/tr><tr><td class="no-wrap">الفولات (طبيعي)<\/td><td>100 µg<\/td><td>يدعم انقسام الخلايا<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.<\/div>`,
-          warnings: `<ul><li>⚠️ البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية.</li><li>⚠️ يتفاعل مع أدوية الصرع.</li><li>⚠️ غير موصى به للحوامل دون استشارة طبية.</li><li>⚠️ الجرعة اليومية: 1-2 Gummy حسب العمر.</li></ul>`
-        },
-        { id: "nostress", name: "No Stress", displayName: "🌿 No Stress", retail: 125, pharmacy: 96, bulk: 84, profitSingle: 29, profitBulk: 630, expiry: "12/2027", 
-          desc: `🌿 Ashwagandha KSM-66 300mg<br>✨ KSM-66 is a premium branded ingredient`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th><td></thead><tbody><tr><td class="no-wrap">أشواغاندا KSM-66<\/td><td>300 mg<\/td><td>يخفض الكورتيزول، يقلل القلق<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>10 mg<\/td><td>تدعم GABA لتعزيز الاسترخاء دون نعاس<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>10 mg<\/td><td>يحسن المزاج، يقلل الأرق والتهيج<\/td><\/tr><\/tbody><\/table><div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).<\/div>`,
-          warnings: `<ul><li>⚠️ قد يسبب النعاس – لا يقود السيارة بعد تناوله.</li><li>⚠️ يتفاعل مع مضادات الاكتئاب وأدوية الضغط.</li><li>⚠️ لا يستخدم لقرحة المعدة أو أمراض المناعة الذاتية دون استشارة.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li></ul>`
-        },
-        { id: "multi", name: "Multivitamin - Sugar-Free", displayName: "🥇 Multivitamin - Sugar-Free", retail: 115, pharmacy: 91, bulk: 82, profitSingle: 24, profitBulk: 600, expiry: "11/2027", 
-          desc: `🌿 16 essential vitamins & minerals.<br>✨ Safe for diabetics & Keto-friendly`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">فيتامين C<\/td><td>30 mg<\/td><td>يدعم المناعة وتخليق الكولاجين<\/td><\/tr></td><td class="no-wrap">فيتامين E<\/td><td>14 mg<\/td><td>مضاد أكسدة<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>10 µg<\/td><td>يدعم العظام والمناعة<\/td><\/tr><tr><td class="no-wrap">فيتامينات B<\/td><td>متنوعة<\/td><td>تدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">الفولات الطبيعي<\/td><td>400 µg<\/td><td>لوظيفة الدماغ وتخليق DNA<\/td><\/tr><tr><td class="no-wrap">البيوتين<\/td><td>150 µg<\/td><td>يدعم الشعر والبشرة<\/td><\/tr><tr><td class="no-wrap">اليود<\/td><td>40 µg<\/td><td>يدعم الغدة الدرقية<\/td><\/tr><tr><td class="no-wrap">الكروم<\/td><td>18 µg<\/td><td>يدعم توازن السكر<\/td><\/tr><tr><td class="no-wrap">الكالسيوم<\/td><td>100 mg<\/td><td>يدعم العظام والأسنان<\/td><\/tr><tr><td class="no-wrap">الزنك<\/td><td>2.2 mg<\/td><td>يدعم المناعة<\/td><\/tr><\/tbody><\/table><div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.<\/div>`,
-          warnings: `<ul><li>⚠️ يحتوي على يود – الحذر مع أمراض الغدة الدرقية.</li><li>⚠️ الكالسيوم قد يتداخل مع المضادات الحيوية.</li><li>⚠️ الكروم يعزز تأثير أدوية السكري (مراقبة مطلوبة).</li><li>⚠️ ينصح النساء الحوامل باستشارة الطبيب قبل الاستخدام.</li></ul>`
-        },
-        { id: "sleep", name: "Sleep", displayName: "🌙 Sleep", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "02/2027", 
-          desc: `🌿 Advanced formula with Melatonin + 5-HTP + 4 Herbs<br>✨ Natural solution for better sleep quality`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">ميلاتونين<\/td><td>1 mg<\/td><td>ينظم دورة النوم والاستيقاظ<\/td><\/tr></td><td class="no-wrap">5-HTP<\/td><td>50 mg<\/td><td>مقدمة السيروتونين<\/td><\/tr><tr><td class="no-wrap">زهرة الآلام<\/td><td>15 mg<\/td><td>تدعم GABA<\/td><\/tr><tr><td class="no-wrap">بلسم الليمون<\/td><td>15 mg<\/td><td>يقلل التوتر ويحسن المزاج<\/td><\/tr></tr><td class="no-wrap">حشيشة الهر<\/td><td>15 mg<\/td><td>تقليل الوقت اللازم للنوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).<\/div>`,
-          warnings: `<ul><li>⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين).</li><li>⚠️ قد يسبب النعاس.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ قد يسبب أحلاما مزعجة.</li></ul>`
-        },
-        { id: "magnesium", name: "Magnesium", displayName: "💪 Magnesium", retail: 110, pharmacy: 88, bulk: 82, profitSingle: 22, profitBulk: 550, expiry: "11/2027", 
-          desc: `🌿 Magnesium Citrate with B6+B12+D3<br>✨ For maximum absorption & energy recovery`,
-          composition: `<table class="sci-table"><thead><tr><th>المكون</th><th>الجرعة</th><th>الفائدة</th></tr></thead><tbody><tr><td class="no-wrap">سترات المغنيسيوم<\/td><td>100 mg<\/td><td>شكل عالي الامتصاص، يدعم استرخاء العضلات والأعصاب<\/td><\/tr><tr><td class="no-wrap">فيتامين B6<\/td><td>1 mg<\/td><td>معزز امتصاص المغنيسيوم<\/td><\/tr></td><td class="no-wrap">فيتامين B12<\/td><td>1.3 µg<\/td><td>يدعم الطاقة والجهاز العصبي<\/td><\/tr><tr><td class="no-wrap">فيتامين D3<\/td><td>2 µg<\/td><td>يعزز امتصاص الكالسيوم والمغنيسيوم<\/td><\/tr><\/tbody><\/table><div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.<\/div>`,
-          warnings: `<ul><li>⚠️ موانع استخدام: الفشل الكلوي الحاد دون استشارة الطبيب.</li><li>⚠️ قد يتفاعل مع المضادات الحيوية – فارق 2-3 ساعات.</li><li>⚠️ الجرعة اليومية: حبتان للبالغين.</li></ul>`
-        }
+        { id: "hsn", name: "Hair, Skin & Nails", retail: 125, pharmacy: 96, bulk: 84 },
+        { id: "nostress", name: "No Stress", retail: 125, pharmacy: 96, bulk: 84 },
+        { id: "multi", name: "Multivitamin - Sugar-Free", retail: 115, pharmacy: 91, bulk: 82 },
+        { id: "sleep", name: "Sleep", retail: 110, pharmacy: 88, bulk: 82 },
+        { id: "magnesium", name: "Magnesium", retail: 110, pharmacy: 88, bulk: 82 }
     ];
 
     let invoiceCounter = 1;
 
+    // دالة لتعبئة كميات الستاند
     function fillStandOffer() {
         const standQty = parseInt(standQtyInput.value);
         if (standQty > 0) {
@@ -499,6 +481,7 @@
         }
     }
 
+    // عرض بطاقات المنتجات
     function renderProducts() {
         const grid = document.getElementById('productsGrid');
         grid.innerHTML = PRODUCTS.map(p => `
@@ -508,29 +491,60 @@
                     p.id === 'multi' ? 'linear-gradient(135deg,#d53f8c,#ed64a6)' :
                     p.id === 'sleep' ? 'linear-gradient(135deg,#6b46c1,#9f7aea)' :
                     'linear-gradient(135deg,#319795,#38b2ac)'}" data-id="${p.id}">
-                    <div class="product-name">${p.displayName}</div>
+                    <div class="product-name">${p.id === 'hsn' ? '👑 Hair, Skin & Nails' : 
+                                      p.id === 'nostress' ? '🌿 No Stress' : 
+                                      p.id === 'multi' ? '🥇 Multivitamin - Sugar-Free' : 
+                                      p.id === 'sleep' ? '🌙 Sleep' : '💪 Magnesium'}</div>
                     <div class="gummies-badge">🍬 60 Gummies</div>
                     <div class="details-badge">📚 اضغط للتفاصيل العلمية</div>
-                    <div class="product-desc">${p.desc}</div>
+                    <div class="product-desc">${p.id === 'hsn' ? '🌿 Rich in Biotin 5000mcg + Natural Folate + 10 ingredients' : 
+                                       p.id === 'nostress' ? '🌿 Ashwagandha KSM-66 300mg<br>✨ KSM-66 is a premium branded ingredient' :
+                                       p.id === 'multi' ? '🌿 16 essential vitamins & minerals.<br>✨ Safe for diabetics & Keto-friendly' :
+                                       p.id === 'sleep' ? '🌿 Advanced formula with Melatonin + 5-HTP + 4 Herbs<br>✨ Natural solution for better sleep quality' :
+                                       '🌿 Magnesium Citrate with B6+B12+D3<br>✨ For maximum absorption & energy recovery'}</div>
                 </div>
                 <div class="card-body">
                     <div class="tagline-ltr" style="border-left-color:${p.id === 'hsn' ? '#ed8936' : p.id === 'nostress' ? '#48bb78' : p.id === 'multi' ? '#ed64a6' : p.id === 'sleep' ? '#9f7aea' : '#38b2ac'}">"${p.id === 'hsn' ? 'High Potency Therapeutic Formula' : p.id === 'nostress' ? 'Calm without Drowsiness' : p.id === 'multi' ? 'Smart Nutrition, Zero Sugar' : p.id === 'sleep' ? 'Restful Nights, Refreshing Mornings' : 'Essential Muscle & Nerve Support'}"</div>
                     <table class="pricing-table">
-                        <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th><tr></thead>
+                        <thead><tr><th>النوع</th><th>السعر</th><th>ملاحظات</th></tr></thead>
                         <tbody>
-                            <tr><td class="no-wrap">💰 سعر المستهلك<\/td><td class="price-main">${p.retail}.00<\/td><td class="note-text">-<\/td><\/tr>
-                            <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)<\/td><td class="offer-price">${p.pharmacy}.00<\/td><td class="note-text">هامش ربح ${p.profitSingle}<\/td><\/tr>
-                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)<\/td><td class="bulk-price">${p.bulk}.00<\/td><td class="note-text">هامش ربح ${p.profitBulk}<\/td><\/tr>
-                            <tr><td class="no-wrap">📅 تاريخ الصلاحية<\/td><td colspan="2" class="expiry">${p.expiry}<\/td><\/tr>
-                        <\/tbody>
-                    <\/table>
-                <\/div>
-            <\/div>
+                            <tr><td class="no-wrap">💰 سعر المستهلك</td><td class="price-main">${p.retail}.00</td><td class="note-text">-</td></tr>
+                            <tr><td class="no-wrap">🏪 سعر الصيدلية (قطعة واحدة)</td><td class="offer-price">${p.pharmacy}.00</td><td class="note-text">هامش ربح ${p.retail - p.pharmacy}</td></tr>
+                            <tr><td class="no-wrap">📦 سعر الصيدلية (25 قطعة + ستاند)</td><td class="bulk-price">${p.bulk}.00</td><td class="note-text">هامش ربح ${(p.retail - p.bulk) * 25}</td></tr>
+                            <tr><td class="no-wrap">📅 تاريخ الصلاحية</td><td colspan="2" class="expiry">${p.id === 'hsn' ? '07/2027' : p.id === 'nostress' ? '12/2027' : p.id === 'multi' ? '11/2027' : p.id === 'sleep' ? '02/2027' : '11/2027'}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         `).join('');
         document.querySelectorAll('.card-header').forEach(header => {
             header.addEventListener('click', () => openProductPopup(PRODUCTS.find(p => p.id === header.dataset.id)));
         });
     }
+
+    // معلومات المنتجات للنافذة المنبثقة (بالنص الكامل مع الإيموجي)
+    const PRODUCTS_FULL = [
+        { id: "hsn", name: "Hair, Skin & Nails", displayName: "👑 Hair, Skin & Nails", 
+          composition: `<div class="warning-box">📌 الفولات الطبيعي مناسب للأشخاص الذين لديهم طفرة MTHFR.</div>`,
+          warnings: `<ul><li>⚠️ البيوتين بجرعة 5000 ميكروغرام قد يؤثر على نتائج الفحوصات المخبرية.</li><li>⚠️ يتفاعل مع أدوية الصرع.</li><li>⚠️ غير موصى به للحوامل دون استشارة طبية.</li><li>⚠️ الجرعة اليومية: 1-2 Gummy حسب العمر.</li></ul>`
+        },
+        { id: "nostress", name: "No Stress", displayName: "🌿 No Stress",
+          composition: `<div class="warning-box">📌 KSM-66 هو المستخلص الأكثر دراسة سريريا (22 دراسة).</div>`,
+          warnings: `<ul><li>⚠️ قد يسبب النعاس – لا يقود السيارة بعد تناوله.</li><li>⚠️ يتفاعل مع مضادات الاكتئاب وأدوية الضغط.</li><li>⚠️ لا يستخدم لقرحة المعدة أو أمراض المناعة الذاتية دون استشارة.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li></ul>`
+        },
+        { id: "multi", name: "Multivitamin - Sugar-Free", displayName: "🥇 Multivitamin - Sugar-Free",
+          composition: `<div class="warning-box">🍬 خال من السكر تماما – مناسب لمرضى السكري ومتبعين حمية الكيتو.</div>`,
+          warnings: `<ul><li>⚠️ يحتوي على يود – الحذر مع أمراض الغدة الدرقية.</li><li>⚠️ الكالسيوم قد يتداخل مع المضادات الحيوية.</li><li>⚠️ الكروم يعزز تأثير أدوية السكري (مراقبة مطلوبة).</li><li>⚠️ ينصح النساء الحوامل باستشارة الطبيب قبل الاستخدام.</li></ul>`
+        },
+        { id: "sleep", name: "Sleep", displayName: "🌙 Sleep",
+          composition: `<div class="warning-box">🌟 يحتوي على 5-HTP (المقدمة المباشرة للسيروتونين).</div>`,
+          warnings: `<ul><li>⚠️ لا تتناول مع مضادات الاكتئاب (خطر متلازمة السيروتونين).</li><li>⚠️ قد يسبب النعاس.</li><li>⚠️ غير موصى به لمن هم أقل من 18 سنة.</li><li>⚠️ قد يسبب أحلاما مزعجة.</li></ul>`
+        },
+        { id: "magnesium", name: "Magnesium", displayName: "💪 Magnesium",
+          composition: `<div class="warning-box">⚡ سيترات المغنيسيوم يمتص بنسبة 30-40%.</div>`,
+          warnings: `<ul><li>⚠️ موانع استخدام: الفشل الكلوي الحاد دون استشارة الطبيب.</li><li>⚠️ قد يتفاعل مع المضادات الحيوية – فارق 2-3 ساعات.</li><li>⚠️ الجرعة اليومية: حبتان للبالغين.</li></ul>`
+        }
+    ];
 
     const productPopup = document.getElementById('productPopup');
     const popupTitle = document.getElementById('popupTitle');
@@ -539,9 +553,10 @@
     const tabBtns = document.querySelectorAll('#productPopup .tab-btn');
     
     function openProductPopup(product) {
-        popupTitle.innerHTML = product.displayName;
-        tabComp.innerHTML = product.composition;
-        tabWarn.innerHTML = product.warnings;
+        const fullProduct = PRODUCTS_FULL.find(p => p.id === product.id);
+        popupTitle.innerHTML = fullProduct.displayName;
+        tabComp.innerHTML = fullProduct.composition;
+        tabWarn.innerHTML = fullProduct.warnings;
         tabBtns[0].click();
         productPopup.classList.add('active');
         document.body.classList.add('modal-open');
@@ -631,6 +646,7 @@
         return `26${sequential}`;
     }
 
+    // إنشاء الفاتورة النهائية (بصيحة HTML للطباعة)
     function generatePDFInvoice() {
         const total = getTotal();
         if (total <= 0) return;
@@ -645,41 +661,59 @@
         const quantities = getCurrentQuantities();
         const standQty = getValueFromInput('standQty');
         
-        // عرض جميع المنتجات الخمسة بغض النظر عن الكمية
+        // بناء جدول المنتجات في الفاتورة
         let productsHTML = '';
-        for (let i = 0; i < PRODUCTS.length; i++) {
-            const product = PRODUCTS[i];
-            const qty = quantities[i];
-            // استخدام الكمية المدخلة، وإذا كانت صفراً والستاند مفعل نعرضها 5 فقط للعرض
-            let displayQty = qty;
-            if (standQty > 0 && displayQty === 0) {
-                displayQty = 5; // عرض 5 فقط في الفاتورة عند اختيار الستاند
-            }
-            if (displayQty > 0) {
-                const useOffer = displayQty >= 25;
-                const unitPrice = useOffer ? product.bulk : product.pharmacy;
-                const itemTotal = displayQty * unitPrice;
+        let grandTotal = 0;
+        
+        if (standQty > 0) {
+            // عرض الستاند: نعرض المنتجات الخمسة بكمية 5 لكل منها
+            for (let i = 0; i < PRODUCTS.length; i++) {
+                const product = PRODUCTS[i];
+                const qty = 5;
+                const itemTotal = qty * product.bulk;
+                grandTotal += itemTotal;
                 productsHTML += `
                     <tr>
-                        <td class="no-wrap"><span class="product-name"><span class="icon">${product.displayName.charAt(0)}</span> ${product.name}</span></td>
-                        <td>${product.retail}.00</td><td>${product.pharmacy}.00</td><td>${product.bulk}.00</td>
-                        <td>${displayQty}</td><td>${itemTotal.toFixed(2)}</td>
+                        <td class="no-wrap"><span class="product-name">${product.name}</span></td>
+                        <td>${product.retail}.00</td>
+                        <td>${product.pharmacy}.00</td>
+                        <td>${product.bulk}.00</td>
+                        <td>${qty}</td>
+                        <td>${itemTotal.toFixed(2)}</td>
                     </tr>
                 `;
             }
-        }
-        
-        // حساب الإجمالي (مع مراعاة الستاند)
-        let grandTotal = total;
-        if (standQty > 0) {
-            grandTotal = (standQty * 2070);
+        } else {
+            // الوضع العادي: نعرض المنتجات حسب الكميات المدخلة
             for (let i = 0; i < PRODUCTS.length; i++) {
+                const product = PRODUCTS[i];
                 const qty = quantities[i];
                 if (qty > 0) {
-                    grandTotal += getProductPrice(qty, PRODUCTS[i]);
+                    const useOffer = qty >= 25;
+                    const unitPrice = useOffer ? product.bulk : product.pharmacy;
+                    const itemTotal = qty * unitPrice;
+                    grandTotal += itemTotal;
+                    productsHTML += `
+                        <tr>
+                            <td class="no-wrap"><span class="product-name">${product.name}</span></td>
+                            <td>${product.retail}.00</td>
+                            <td>${product.pharmacy}.00</td>
+                            <td>${product.bulk}.00</td>
+                            <td>${qty}</td>
+                            <td>${itemTotal.toFixed(2)}</td>
+                        </tr>
+                    `;
                 }
             }
         }
+        
+        // إضافة صف الإجمالي
+        productsHTML += `
+            <tr class="total-row">
+                <td colspan="5" style="text-align:left;"><strong>💰 إجمالي الفاتورة</strong></td>
+                <td><strong>${grandTotal.toFixed(2)} دينار</strong></td>
+            </tr>
+        `;
         
         const standMessage = (standQty > 0) ? 
             '• 5 قطع من كل منتج (إجمالي 25 قطعة) - ستاند عرض مجاني (قيمته 90 دينار)' : 
@@ -708,7 +742,6 @@
                 .invoice-table td { padding: 8px 6px; text-align: center; font-size: 0.78rem; border-bottom: 1px solid #e2e8f0; color: #2d3748; }
                 .invoice-table td:first-child, .invoice-table th:first-child { text-align: left; }
                 .product-name { display: inline-flex; align-items: center; gap: 6px; direction: ltr; unicode-bidi: embed; }
-                .product-name .icon { order: -1; }
                 .total-row td { background: #ebf8ff; font-weight: 800; font-size: 0.85rem; border-top: 2px solid #cbd5e0; }
                 .invoice-section { padding: 10px 20px; border-bottom: 1px solid #e2e8f0; }
                 .section-title { font-weight: 800; font-size: 0.8rem; color: #2b6cb0; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
@@ -749,11 +782,7 @@
             </div>
             <table class="invoice-table">
                 <thead><tr><th>المنتج</th><th>سعر المستهلك</th><th>سعر القطعة</th><th>سعر العرض<br>(25 قطعة)</th><th>الكمية</th><th>الإجمالي</th></tr></thead>
-                <tbody>
-                    ${productsHTML}
-                    ${standQty > 0 ? `<tr class="stand-row"><td colspan="5" style="text-align:left;"><strong>🎁 عرض الستاند (باقة 25 قطعة من كل نوع)</strong></td><td><strong>${(standQty * 2070).toFixed(2)}</strong></td></tr>` : ''}
-                    <tr class="total-row"><td colspan="5" style="text-align:left;"><strong>💰 إجمالي الفاتورة</strong></td><td><strong>${grandTotal.toFixed(2)} دينار</strong></td></tr>
-                </tbody>
+                <tbody>${productsHTML}</tbody>
             </table>
             <div class="invoice-section"><div class="section-title">🎁 العرض يشمل</div><div class="section-content">${standMessage}</div></div>
             <div class="invoice-section"><div class="section-title">💰 شروط الدفع</div><div class="section-content">• السداد على دفعات أسبوعية<br>• مدة السداد: شهر واحد من تاريخ الفاتورة (أقصى حد)<br>• الدفع نقداً أو عبر التحويل البنكي</div></div>
@@ -786,7 +815,7 @@
 
     function openOrderPopup() {
         renderOrderFields();
-        standQtyInput.value = '';
+        standQtyInput.value = 1;
         pharmacyNameInput.value = 'صيدلية ابن البيطار';
         pharmacyAddressInput.value = 'حي الأندلس، طرابلس';
         invoiceNumberInput.value = '';
@@ -813,6 +842,10 @@
     });
 
     renderProducts();
+    // تهيئة أولية لعرض الستاند
+    setTimeout(() => {
+        standQtyInput.dispatchEvent(new Event('input'));
+    }, 100);
 </script>
 </body>
 </html>
